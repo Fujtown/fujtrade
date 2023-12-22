@@ -1,0 +1,36 @@
+{
+  "name": "nodejspart",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@cyclic.sh/s3fs": "^1.2.9",
+    "api": "^6.1.1",
+    "axios": "^1.6.2",
+    "body-parser": "^1.20.2",
+    "cookie-session": "^2.0.0",
+    "cors": "^2.8.5",
+    "dot-env": "^0.0.1",
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
+    "ejs-mate": "^4.0.0",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "firebase-admin": "^11.11.1",
+    "google-auth-library": "^9.4.1",
+    "multer": "^1.4.5-lts.1",
+    "node-fetch": "^3.3.2",
+    "nodemailer": "^6.9.7",
+    "nodemon": "^3.0.1",
+    "passport": "^0.5.3",
+    "passport-google-oauth2": "^0.2.0"
+  }
+}

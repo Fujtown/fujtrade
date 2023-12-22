@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Premium HTML5 Template by Indonez">
+    <meta name="keywords" content="blockit, uikit3, indonez, handlebars, scss, javascript">
+    <meta name="author" content="Indonez">
+    <meta name="theme-color" content="#E9E8F0">
+    <!-- preload assets -->
+    <link rel="preload" href="/assets/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/montserrat-v14-latin-600.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/lato-v16-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/lato-v16-latin-700.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/css/style.css" as="style">
+    <link rel="preload" href="/assets/js/vendors/uikit.min.js" as="script">
+    <link rel="preload" href="/assets/js/utilities.min.js" as="script">
+    <link rel="preload" href="/assets/js/config-theme.js" as="script">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/css/intlTelInput.css"  />
+    <!-- stylesheet -->
+    <link rel="stylesheet" href="/assets/css/auth.css">
+    <!-- uikit -->
+    <script src="/assets/js/vendors/uikit.min.js"></script>
+      
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!-- favicon -->
+    <link rel="shortcut icon" href="/assets/img/favicon.ico" type="image/x-icon">
+    <!-- touch icon -->
+    <link rel="apple-touch-icon-precomposed" href="/assets/img/apple-touch-icon.png">
+    <title>Sign Up</title>
+</head>
+
+<body>
+    <style>
+        
+        .iti__flag {background-image: url("https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/img/flags.png");}
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .iti__flag {background-image: url("https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/img/flags@2x.png");}
+}
+.iti{
+  width: 100%;
+}
+.iti__country{
+    color: black !important;
+}
+.login-container form input{
+    margin: 0.7rem 0 !important;
+    padding: 11px;
+}
+body{
+    overflow: hidden;
+}
+.title{
+    font-size: 1.5rem;
+    opacity: .8;
+}
+.google-sign-in-button {
+    cursor: pointer;
+    transition: background-color .3s, box-shadow .3s;
+        
+    padding: 12px 16px 12px 42px;
+    border: none;
+    border-radius: 3px;
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 1px 1px rgba(0, 0, 0, .25);
+    
+    color: #757575;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
+    
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNMTcuNiA5LjJsLS4xLTEuOEg5djMuNGg0LjhDMTMuNiAxMiAxMyAxMyAxMiAxMy42djIuMmgzYTguOCA4LjggMCAwIDAgMi42LTYuNnoiIGZpbGw9IiM0Mjg1RjQiIGZpbGwtcnVsZT0ibm9uemVybyIvPjxwYXRoIGQ9Ik05IDE4YzIuNCAwIDQuNS0uOCA2LTIuMmwtMy0yLjJhNS40IDUuNCAwIDAgMS04LTIuOUgxVjEzYTkgOSAwIDAgMCA4IDV6IiBmaWxsPSIjMzRBODUzIiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNNCAxMC43YTUuNCA1LjQgMCAwIDEgMC0zLjRWNUgxYTkgOSAwIDAgMCAwIDhsMy0yLjN6IiBmaWxsPSIjRkJCQzA1IiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNOSAzLjZjMS4zIDAgMi41LjQgMy40IDEuM0wxNSAyLjNBOSA5IDAgMCAwIDEgNWwzIDIuNGE1LjQgNS40IDAgMCAxIDUtMy43eiIgZmlsbD0iI0VBNDMzNSIgZmlsbC1ydWxlPSJub256ZXJvIi8+PHBhdGggZD0iTTAgMGgxOHYxOEgweiIvPjwvZz48L3N2Zz4=);
+    background-color: white;
+    background-repeat: no-repeat;
+    background-position: 12px 11px;
+    width: 100%;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.google-sign-in-button:hover {
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 2px 4px rgba(0, 0, 0, .25);
+}
+
+.google-sign-in-button:active {
+    background-color: #eeeeee;
+}
+
+.google-sign-in-button:active {
+    outline: none;
+        box-shadow: 
+        0 -1px 0 rgba(0, 0, 0, .04),
+        0 2px 4px rgba(0, 0, 0, .25),
+        0 0 0 3px #c8dafc;
+}
+
+
+
+    </style>
+    <!-- page loader begin -->
+    <div class="page-loader">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <!-- page loader end -->
+    <section class="container">
+        <div class="login-container">
+            <div class="circle circle-one"></div>
+            <div class="form-container">
+                <img src="https://raw.githubusercontent.com/hicodersofficial/glassmorphism-login-form/master/assets/illustration.png" alt="illustration" class="illustration" />
+                <h1 class="opacity title">CREATE ACCOUNT</h1>
+                <form id="loginForm">
+                    <input type="text" id="fname" placeholder="FIRST NAME" />
+                    <input type="text" id="lname" placeholder="LAST NAME" />
+                    <input type="text" id="username" placeholder="USERNAME" />
+                    <input type="email" id="email" placeholder="EMAIL" />
+                    <input  class="phone" id="phone" style="width: 100%; padding: 10px 10px 10px 73px; text-align: left;border-radius: 5px;" type="tel"  
+                    required maxlength="19" placeholder=""/>
+                    <input type="hidden" value="1" id="country_code" name="country_code">
+                    <input type="password" id="password" placeholder="PASSWORD" />
+                    <button class="opacity" type="submit" name="submit">SIGN UP</button>
+                </form>
+                
+                 <!-- login form end -->
+                 <p class="uk-heading-line"><span>Or registered with</span></p>
+                 <div class="uk-margin-medium-bottom">
+                    <a href="/google" class="google-sign-in-button" >
+                        Sign in with Google
+                      </a>
+                     <!-- <a id="google" class="uk-button uk-button-primary uk-button-small uk-border-rounded color-google" href="/google"><i class="fab fa-google uk-margin-small-right"></i>Google</a> -->
+                     <!-- <a class="uk-button uk-button-primary uk-button-small uk-border-rounded uk-margin-small-left color-facebook" href="#"><i class="fab fa-facebook-f uk-margin-small-right"></i>Facebook</a> -->
+                 </div>                        
+                 <span class="uk-text-small">Already have an account? <a href="/signin">Login</a></span>
+            </div>
+            <div class="circle circle-two"></div>
+        </div>
+        <div class="theme-btn-container"></div>
+    </section>
+    <!-- javascript -->
+    <script src="/assets/js/utilities.min.js"></script>
+    <script src="/assets/js/config-theme.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/intlTelInput.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="/assets/js/auth.js"></script>
+    <script>
+      $(document).ready(function () {
+          
+            // Initialize the intlTelInput library
+   var input = document.querySelector(".phone");
+   var iti = window.intlTelInput(input, {
+       separateDialCode: true,
+      
+       utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/utils.min.js", // Make sure to include this script
+               preferredCountries: ['us', 'gb', 'ae'], // Prioritize US, UK, and UAE
+        dropdownContainer: document.body
+   });
+
+   // Update the hidden input with the selected country code
+   input.addEventListener("countrychange", function () {
+       var country_code = iti.getSelectedCountryData().dialCode;
+       document.querySelector("#country_code").value = country_code;
+   });
+   
+      });
+</script>
+<!-- Add the following script tag at the end of your HTML file -->
+<script>
+    $(document).ready(function () {
+        // Event listener for form submission
+        $("#submitBtn").click(function () {
+            // Get form data
+            var formData = {
+                fname: $("#fname").val(),
+                lname: $("#lname").val(), // Add other form fields
+                username: $("#username").val(), // Add other form fields
+                email: $("#email").val(), // Add other form fields
+                phone: $("#phone").val(), // Add other form fields
+                country_code: $("#country_code").val(), // Add other form fields
+                password: $("#password").val(), // Add other form fields
+                // ...
+            };
+
+            // Send form data to the server using AJAX
+            $.ajax({
+                type: "POST",
+                url: "/save_account", // Update the URL with your server endpoint
+                data: JSON.stringify(formData),
+                contentType: "application/json",
+                success: function (response) {
+                    console.log("Data sent successfully");
+                      // Display a success SweetAlert2 message
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: response.message, // Assuming your server sends a message in the response
+                    });
+                    
+                    // Reset the form inputs
+                    $('#formId')[0].reset(); // Replace 'formId' with the actual ID of your form
+
+                },
+                error: function (error) {
+                    console.error("Error sending data:", error);
+                      // Display an error SweetAlert2 message
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'Failed to submit data. Please try again.',
+                    });
+                    // Handle errors
+                }
+            });
+        });
+    });
+</script>
+</body>
+
+</html>
