@@ -100,6 +100,13 @@ app.use(cors());
 // app.get('/', (req, res) => {
 //   res.sendFile(__dirname + '/index.html');
 // });
+app.use((req, res, next) => {
+  if (req.hostname === 'fujtrade.com') {
+      // Redirect to www.fujtrade.com
+      return res.redirect(301, 'https://www.fujtrade.com' + req.url);
+  }
+  next();
+});
 app.get('/', (req, res) => {
     // Check if the app is running in a production environment
   // const isProduction = process.env.NODE_ENV === 'production';
