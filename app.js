@@ -47,9 +47,8 @@ app.use((req, res, next) => {
       return res.redirect(301, redirectUrl);
   }
 
-  next();
-
 }
+next();
 });
 
 
