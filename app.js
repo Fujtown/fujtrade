@@ -36,6 +36,23 @@ const db = admin.firestore();
 const app = express();
 const port = 5000;
 
+app.use((req, res, next) => {
+  const host = req.headers.host;
+  const isHttps = req.secure || req.headers['x-forwarded-proto'] === 'https';
+  if (isHttps !== 'https' && process.env.NODE_ENV === 'production') {
+  // Check if it's not HTTPS or doesn't start with www
+  if (!isHttps || !host.startsWith('www.')) {
+      const wwwHost = 'www.' + host.replace(/^www\./, ''); // Ensure www is added
+      const redirectUrl = `https://${wwwHost}${req.url}`;
+      return res.redirect(301, redirectUrl);
+  }
+
+  next();
+
+}
+});
+
+
 // Serve the public folder statically
 app.get('/uploads/:filename', (req, res) => {
   res.sendFile(path.join(__dirname + '/uploads/' + req.params.filename));
@@ -100,13 +117,7 @@ app.use(cors());
 // app.get('/', (req, res) => {
 //   res.sendFile(__dirname + '/index.html');
 // });
-app.use((req, res, next) => {
-  if (req.hostname === 'fujtrade.com') {
-      // Redirect to www.fujtrade.com
-      return res.redirect(301, 'https://www.fujtrade.com' + req.url);
-  }
-  next();
-});
+
 app.get('/', (req, res) => {
     // Check if the app is running in a production environment
   // const isProduction = process.env.NODE_ENV === 'production';
