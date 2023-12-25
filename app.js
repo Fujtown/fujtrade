@@ -35,7 +35,7 @@ const db = admin.firestore();
 
 const app = express();
 const port = 5000;
-
+app.use(cors());
 app.use((req, res, next) => {
   const host = req.headers.host;
   const isHttps = req.secure || req.headers['x-forwarded-proto'] === 'https';
