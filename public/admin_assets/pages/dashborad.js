@@ -57,74 +57,7 @@
 
     Dashboard.prototype.init = function () {
         
-         //map
-
-         $('#world-map-markers').vectorMap({
-            map : 'world_mill_en',
-            scaleColors : ['#3263aa', '#3263aa'],
-            normalizeFunction : 'polynomial',
-            hoverOpacity : 0.7,
-            hoverColor : false,
-            regionStyle : {
-                initial : {
-                    fill : '#b2c2da'
-                }
-            },
-            markerStyle: {
-                initial: {
-                    r: 9,
-                    'fill': '#3263aa',
-                    'fill-opacity': 0.9,
-                    'stroke': '#fff',
-                    'stroke-width' : 5,
-                    'stroke-opacity': 0.4
-                },
-
-                hover: {
-                    'stroke': '#fff',
-                    'fill-opacity': 1,
-                    'stroke-width': 1.5
-                }
-            },
-            backgroundColor : 'transparent',
-            markers : [ {
-                latLng : [7.11, 171.06],
-                name : 'Marshall Islands'
-            }, {
-                latLng : [17.3, -62.73],
-                name : 'Saint Kitts and Nevis'
-            }, {
-                latLng : [3.2, 73.22],
-                name : 'Maldives'
-            }, {
-                latLng : [35.88, 14.5],
-                name : 'Malta'
-            }, {
-                latLng : [12.05, -61.75],
-                name : 'Grenada'
-            }, {
-                latLng : [13.16, -61.23],
-                name : 'Saint Vincent and the Grenadines'
-            }, {
-                latLng : [13.16, -59.55],
-                name : 'Barbados'
-            }, {
-                latLng : [-4.61, 55.45],
-                name : 'Seychelles'
-            },  {
-                latLng : [14.01, -60.98],
-                name : 'Saint Lucia'
-            }, {
-                latLng : [1.3, 103.8],
-                name : 'Singapore'
-            }, {
-                latLng : [15.3, -61.38],
-                name : 'Dominica'
-            }, {
-                latLng : [26.02, 50.55],
-                name : 'Bahrain'
-            }]
-        });
+     
 
         /* Calender */
         window.addEventListener('load', function () {
