@@ -134,7 +134,8 @@ body{
                      <!-- <a id="google" class="uk-button uk-button-primary uk-button-small uk-border-rounded color-google" href="/google"><i class="fab fa-google uk-margin-small-right"></i>Google</a> -->
                      <!-- <a class="uk-button uk-button-primary uk-button-small uk-border-rounded uk-margin-small-left color-facebook" href="#"><i class="fab fa-facebook-f uk-margin-small-right"></i>Facebook</a> -->
                  </div>                        
-                 <span class="uk-text-small">Already have an account? <a href="/signin">Login</a></span>
+                 <span class="uk-text-small">Already have an account? <a href="/signin">Login</a></span><br>
+                <a class="go_back" href="/home">Go Back</a>
             </div>
             <div class="circle circle-two"></div>
         </div>
@@ -148,7 +149,12 @@ body{
     <script src="/assets/js/auth.js"></script>
     <script>
       $(document).ready(function () {
-          
+        let userInfo = localStorage.getItem('user_set_data');
+        if (userInfo) {
+    let filter = JSON.parse(userInfo);
+    $('#email').val(filter.email)
+        }
+
             // Initialize the intlTelInput library
    var input = document.querySelector(".phone");
    var iti = window.intlTelInput(input, {

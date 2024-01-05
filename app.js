@@ -178,25 +178,86 @@ app.get('/coffee/all_links', (req, res) => {
     res.redirect('/coffee/login');
   }
 });
-
 app.get('/get_tap_payments', async (req, res) => {
   try {
-      const firestore = admin.firestore();
-      const snapshot = await firestore.collection('all_tap_payment').get();
+      const firestore  = admin.firestore();
+      const minDateStr = req.query.min_date; // Expecting date as 'YYYY-MM-DD'
+      const maxDateStr = req.query.max_date; // Expecting date as 'YYYY-MM-DD'
+      const status     = req.query.status; 
+      // console.log(status)
+      if(minDateStr && maxDateStr)
+      {
+                const minDate = new Date(minDateStr + 'T00:00:00Z')
+                const maxDate = new Date(maxDateStr + 'T23:59:59Z')
+                const maxTimestampStr = maxDate.getTime().toString();
+                const minTimestampStr = minDate.getTime().toString();
+                // console.log(maxTimestampStr)
+        const query = firestore.collection('all_tap_payment')
+        .where('date', '>=', minTimestampStr)  // Use the actual value from the '>= string' field
+        .where('date', '<=', maxTimestampStr); // Use the actual value from the '<= string' field
 
-      let payments = [];
-      snapshot.forEach(doc => {
-          let payment = doc.data();
-          payment.id = doc.id;
-          payments.push(payment);
+      query.get().then((querySnapshot) => {
+        if (querySnapshot.empty) {
+          console.log('No matching documents.');
+          return;
+        }
+       
+        let payments = [];
+        querySnapshot.forEach(doc => {
+        
+            payments.push(doc.data());
+        });
+        res.json(payments);
+
+      }).catch((error) => {
+        res.status(500).send('Error getting documents: ', error);
       });
+      }
+      else if(status)
+      {
+        
+        const query = firestore.collection('all_tap_payment')
+        .where('status', '>=', status);
 
-      res.json(payments);
+      query.get().then((querySnapshot) => {
+        if (querySnapshot.empty) {
+          console.log('No Record Found.');
+          return;
+        }
+       
+        let payments = [];
+        querySnapshot.forEach(doc => {
+        
+            payments.push(doc.data());
+        });
+        res.json(payments);
+
+      }).catch((error) => {
+        res.status(500).send('Error getting documents: ', error);
+      });
+      }
+      else{
+        let query = firestore.collection('all_tap_payment');
+        const snapshot = await query.get();
+        // console.log(snapshot)
+      
+        let payments = [];
+        snapshot.forEach(doc => {
+        
+            payments.push(doc.data());
+        });
+        res.json(payments);
+      }
+     
+      
   } catch (error) {
       console.error('Error fetching payments:', error);
-      res.status(500).json({ error: 'Error fetching data' });
+      res.status(500).send('Error fetching data');
   }
 });
+
+
+
 
 app.get('/get_all_links', async (req, res) => {
   try {
@@ -216,6 +277,8 @@ app.get('/get_all_links', async (req, res) => {
       res.status(500).json({ error: 'Error fetching data' });
   }
 });
+
+
 
 
 app.get('/coffee/login', (req, res) => {
@@ -476,26 +539,25 @@ async function getLastInsertedDocument(req) {
 
   const lastInsertedDoc = lastDoc.docs[0].data();
 
-  console.log(lastInsertedDoc);
+  // console.log(lastInsertedDoc);
   // process.exit(1);
   return lastInsertedDoc.ch_id;
 }
 
+
 app.post('/fetch-and-save-data', async (req, res) => {
   const ch_id = await getLastInsertedDocument(req);
-  // console.log(ch_id);
+  const now = new Date();
   req.session.ch_id = ch_id;
   let requestBody = {
-    period: { date: { from: '', to: '' }, type: '1' },
-    limit: '50'
-};
+      period: { date: { from: '', to: '' }, type: '1' },
+      limit: '50'
+  };
 
-// Check if ch_id is set in the session and not empty
-if (req.session.ch_id && req.session.ch_id.trim() !== '') {
-    requestBody.starting_after = req.session.ch_id;
-}
-// console.log(requestBody);
-// process.exit(1);
+  if (req.session.ch_id && req.session.ch_id.trim() !== '') {
+      requestBody.starting_after = req.session.ch_id;
+  }
+
   const options = {
       method: 'POST',
       headers: {
@@ -509,75 +571,61 @@ if (req.session.ch_id && req.session.ch_id.trim() !== '') {
   try {
       const response = await fetch('https://api.tap.company/v2/charges/list', options);
       const apiData = await response.json();
-      const now = new Date();
-      // console.log(data)
+
       if (!apiData || !apiData.charges || !Array.isArray(apiData.charges)) {
-        throw new Error("Invalid data format received from API");
-    }
-      // Assuming data is an array of items to be saved in Firestore
+          return res.status(500).send("Invalid data format received from API");
+      }
+
       const firestore = admin.firestore();
-      const batch = firestore.batch();
-          // Get the current max tr_id
-          const lastDoc = await firestore.collection('all_tap_payment')
+      let maxTrId = 0;
+
+      const lastDoc = await firestore.collection('all_tap_payment')
           .orderBy('tr_id', 'desc')
           .limit(1)
           .get();
 
-      let maxTrId = 0;
       if (!lastDoc.empty) {
-          maxTrId = lastDoc.docs[0].data().tr_id || 1;
+          maxTrId = lastDoc.docs[0].data().tr_id || 0;
       }
 
-      Promise.all(apiData.charges.map(async (charge) => {
-        const docRef = firestore.collection('all_tap_payment').doc(charge.id);
-       
-        const doc = await docRef.get();
-        if (!doc.exists) {
-          maxTrId++;  // Increment tr_id for each new document    
-        const formattedRecord = {
-          tr_id: maxTrId,
-          date: charge.transaction?.created,
-          ch_id: charge.id,
-          track: charge.reference?.track || 'defaultTrack',
-          payment: charge.reference?.payment,
-          receipt: charge.receipt?.id,
-          amount: charge.amount,
-          currency: charge.currency,
-          status: charge.status,
-          code: charge.response?.code,
-          message: charge.response?.message,
-          brand: charge.card?.brand || 'defaultBrand',
-          first_name: charge.customer?.first_name,
-          last_name: charge.customer?.last_name || charge.customer?.first_name,
-          customer_id: charge.customer?.id || '0',
-          email: charge.customer?.email,
-          country_code: charge.customer?.phone?.country_code,
-          number: charge.customer?.phone?.number,
-          invoice_id: charge.metadata?.invoice_id,
-          createdAt: admin.firestore.Timestamp.fromDate(now)
-      };
-    
-            return docRef.set(formattedRecord);
-        }
-        else{
+      for (const charge of apiData.charges) {
+          const docRef = firestore.collection('all_tap_payment').doc(charge.id);
+          const doc = await docRef.get();
+          if (!doc.exists) {
+              maxTrId++; // Increment tr_id for each new document
+              const formattedRecord = {
+                tr_id: maxTrId,
+                date: charge.transaction?.created,
+                ch_id: charge.id,
+                track: charge.reference?.track || 'defaultTrack',
+                payment: charge.reference?.payment,
+                receipt: charge.receipt?.id,
+                amount: charge.amount,
+                currency: charge.currency,
+                status: charge.status,
+                code: charge.response?.code,
+                message: charge.response?.message,
+                brand: charge.card?.brand || 'defaultBrand',
+                first_name: charge.customer?.first_name,
+                last_name: charge.customer?.last_name || charge.customer?.first_name,
+                customer_id: charge.customer?.id || '---',
+                email: charge.customer?.email,
+                country_code: charge.customer?.phone?.country_code,
+                number: charge.customer?.phone?.number,
+                invoice_id: charge.metadata?.invoice_id,
+                createdAt: admin.firestore.Timestamp.fromDate(now)
+            };
+              await docRef.set(formattedRecord);
+          }
+      }
 
-          res.send('All Record Fetch Successfully');
-        }
-       
-    }))
-    .then(() => {
-        res.send('Data fetched and saved/updated successfully');
-    })
-    .catch((err) => {
-        console.error('Error fetching or saving data:', err);
-        res.status(500).send('Error fetching or saving data');
-    });
-
+      return res.send('Data fetched and saved/updated successfully');
   } catch (err) {
       console.error('Error fetching or saving data:', err);
-      res.status(500).send('Error fetching or saving data');
+      return res.status(500).send('Error fetching or saving data');
   }
 });
+
 
 
 
@@ -1076,6 +1124,20 @@ app.get('/reset-password/:token', async (req, res) => {
   } catch (error) {
     console.error('Error handling reset password route:', error);
     res.status(500).send('Internal server error');
+  }
+});
+
+app.get('/terms', (req, res) => {
+  if (req.session.user && Object.keys(req.session.user).length !== 0) {
+    const isAuthenticated = req.session.user;
+    let users_info=req.session.user;
+    // console.log(users_info);
+    const user_photo=users_info.photo;
+    res.render('terms',{isAuthenticated,user_photo});
+  } else {
+    const isAuthenticated = false;
+    const user_photo='default';
+    res.render('terms',{isAuthenticated,user_photo});
   }
 });
 

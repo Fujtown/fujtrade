@@ -216,3 +216,12 @@ h1 {
         -o-transform: scale(1);
     }
 }
+
+.go_back{
+    width: 100%;
+    display: block;
+    margin-top: 10px;
+    text-align: center;
+    background: rgba(0,0,0,.1);
+    padding: 5px;
+}
