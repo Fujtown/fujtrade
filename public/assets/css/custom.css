@@ -1,0 +1,25 @@
+ #checkbox_terms {
+    padding: 1em;
+    border: 3px solid #ddd !important;
+    background-color: #eee !important;
+    height: 2em !important;
+    width: 2em !important;
+    vertical-align: middle;
+  }
+  .term_link{
+    color: #fd6a4f !important;
+  }
+  .blocker{
+    z-index: 999 !important;
+  }
+  #ex1 h2{
+    text-align: center;
+  }
+  #ex1 p{
+    font-size: 13px;
+  }
+  .modal_close{
+    color: #cc2d0f;
+    font-size: 20px;
+    font-weight: 800;
+  }

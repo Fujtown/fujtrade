@@ -14,6 +14,8 @@ const cookieSession = require('cookie-session');
 const crypto = require('crypto');
 const multer = require('multer');
 const axios = require('axios');
+const fs = require('fs');
+const createPdf = require('./pdfGenerator');
 const { OAuth2Client } = require('google-auth-library');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -22,13 +24,7 @@ admin.initializeApp({
 const auth = admin.auth();
 
 const isProduction = process.env.NODE_ENV === 'production';
-if(isProduction=='live')
-{
-  const fs = require('@cyclic.sh/s3fs')(S3_BUCKET_NAME)
-}
-else{
-  const fs = require('fs');
-}
+
 require('./passport-setup')
 
 
@@ -1140,6 +1136,100 @@ app.get('/terms', (req, res) => {
     res.render('terms',{isAuthenticated,user_photo});
   }
 });
+
+ 
+// Function to delete the existing PDF file
+function deleteExistingPdf(filepath) {
+  try {
+      if (fs.existsSync(filepath)) {
+          fs.unlinkSync(filepath);
+          console.log('Existing file deleted');
+      }
+  } catch (error) {
+      console.error('Error deleting the file:', error);
+  }
+}
+
+app.post('/open_account', async (req, res) => {
+  try {
+
+    const { email } = req.body;
+    const firestore = admin.firestore();
+    const lastDoc = await firestore.collection('all_tap_payment')
+    .where('email', '==', email)
+    .where('status', '==', 'CAPTURED')
+    .orderBy('date', 'asc')
+    .limit(1)
+    .get();
+  if (lastDoc.empty) {
+    res.status(200).json({ message: 'Record Not Found With this Email ', email });
+  }
+  else{
+    const lastInsertedDoc = lastDoc.docs[0].data();
+    // console.log(lastInsertedDoc)
+    let name=lastInsertedDoc.first_name;
+    let email=lastInsertedDoc.email;
+    let date=lastInsertedDoc.date;
+    res.status(200).json({ message: 'Record Found With this Email ', lastInsertedDoc });
+    // Delete existing PDF file
+    deleteExistingPdf('./output.pdf');
+
+    const pdfPath = await createPdf(name, date);
+    // Check if the PDF file has been created
+    // if (fs.existsSync(pdfPath)) {
+    //     const transporter = nodemailer.createTransport({
+    //       host: 'smtp.gmail.com',
+    //       secure: false, // use SSL
+    //       port: 25, // port for secure SMTP
+    //       auth: {
+    //         user: 'raza.aursoft@gmail.com',
+    //         pass: 'gcgnnxopwtcxvyfd',
+    //       },
+    //       tls: {
+    //         rejectUnauthorized: false,
+    //       },
+    //     });
+
+    // // Compose the email message
+        // const mailOptions = {
+        //   from: 'raza.aursoft@gmail.com',
+        //   to: email,
+        //   cc: 'marketing@fujtown.com',
+        //   subject: 'Contract Form',
+        //   attachments: [
+        //     {
+        //       path: pdfPath,
+        //     },
+        //   ],
+        // };
+
+    // // Send the email
+        // await transporter.sendMail(mailOptions);
+
+    //     res.status(200).json({ message: 'Email sent successfully' });
+    // } else {
+    //   console.error('Failed to create PDF');
+    //   res.status(500).json({ message: 'Failed to create PDF' });
+    // }
+  }
+
+     // Check if the email exists in your user database
+    //  const userSnapshot = await admin.firestore().collection('site_users').where('email', '==', email).get();
+
+    //  if (userSnapshot.empty) {
+    //    return res.status(404).json({ message: 'User not found' });
+    //  }
+    
+      
+ 
+
+    
+  } catch (error) {
+    console.error('Error sending email:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 
 
 app.listen(process.env.PORT || port, () => {
