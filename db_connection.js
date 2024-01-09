@@ -2,10 +2,10 @@ const mysql = require('mysql');
 
 // Create a connection to the database
 const connection = mysql.createConnection({
-    host:'192.185.73.114',
-    user: 'fujtek_fujtrade',
-    password: 'pepW2*aB53V%',
-    database: 'fujtek_fujtrade'
+    host:'brpbpnxr52faoe9hyl76-mysql.services.clever-cloud.com',
+    user: 'upkdyiwemeyjbnck',
+    password: 'a0AVz4NPzU2BWAZ6XhGA',
+    database: 'brpbpnxr52faoe9hyl76'
     
     // host: process.env.DB_HOST,
     // user: process.env.DB_USER,
