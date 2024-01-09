@@ -1192,6 +1192,42 @@ dbConnection.query(sql, [email_demo], async (error, results, fields) => {
 
   try {
     const pdfPath = await createPdf(name, date, email, number);
+
+    if (fs.existsSync(pdfPath)) {
+      const transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        secure: false, // use SSL
+        port: 25, // port for secure SMTP
+        auth: {
+          user: 'raza.aursoft@gmail.com',
+          pass: 'gcgnnxopwtcxvyfd',
+        },
+        tls: {
+          rejectUnauthorized: false,
+        },
+      });
+
+  // // Compose the email message
+      const mailOptions = {
+        from: 'raza.aursoft@gmail.com',
+        to: 'tech@fujtown.com',
+        subject: 'Contract Form',
+        attachments: [
+          {
+            path: pdfPath,
+          },
+        ],
+      };
+
+  // // Send the email
+      await transporter.sendMail(mailOptions);
+
+      res.status(200).json({ message: 'Email sent successfully' });
+  } else {
+  //   console.error('Failed to create PDF');
+    res.status(500).json({ message: 'Failed to create PDF' });
+  }
+    
     // Further actions with pdfPath
   } catch (pdfError) {
     console.error('Error creating PDF:', pdfError);
@@ -1240,25 +1276,25 @@ dbConnection.query(sql, [email_demo], async (error, results, fields) => {
     //       },
     //     });
 
-    // // Compose the email message
-        // const mailOptions = {
-        //   from: 'raza.aursoft@gmail.com',
-        //   to: email,
-        //   cc: 'marketing@fujtown.com',
-        //   subject: 'Contract Form',
-        //   attachments: [
-        //     {
-        //       path: pdfPath,
-        //     },
-        //   ],
-        // };
+    // // // Compose the email message
+    //     const mailOptions = {
+    //       from: 'raza.aursoft@gmail.com',
+    //       to: email,
+    //       cc: 'marketing@fujtown.com',
+    //       subject: 'Contract Form',
+    //       attachments: [
+    //         {
+    //           path: pdfPath,
+    //         },
+    //       ],
+    //     };
 
-    // // Send the email
-        // await transporter.sendMail(mailOptions);
+    // // // Send the email
+    //     await transporter.sendMail(mailOptions);
 
     //     res.status(200).json({ message: 'Email sent successfully' });
     // } else {
-    //   console.error('Failed to create PDF');
+    // //   console.error('Failed to create PDF');
     //   res.status(500).json({ message: 'Failed to create PDF' });
     // }
   // }
