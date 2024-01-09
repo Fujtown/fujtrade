@@ -14,13 +14,15 @@ const connection = mysql.createConnection({
 });
 
 // Connect to the database
-connection.connect(err => {
-  if (err) {
-    console.error('An error occurred while connecting to the DB');
-    throw err;
+connection.on('error', function(err) {
+  console.log('db error', err);
+  if(err.code === 'PROTOCOL_CONNECTION_LOST') { 
+    // Connection to the MySQL server is usually lost due to either server restart or a
+    // connnection idle timeout (the wait_timeout server variable configures this)
+    handleDisconnect();                        
+  } else {                                     
+    throw err;                                 
   }
-
-  console.log('Connected to the database.');
 });
 module.exports = connection;
 //$con->close();

@@ -29,3 +29,6 @@
     border-radius: 5px;
     border: 1px;
   }
+  .in-profit-4 .in-profit-stockprice .uk-card-body{
+    padding: 8px 20px !important;
+  }
