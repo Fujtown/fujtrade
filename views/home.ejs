@@ -282,57 +282,8 @@
                     </div>
                 </div>
                 <div class="uk-width-1-1">
-                    <div class="uk-child-width-1-2@s uk-child-width-1-5@m in-profit-stockprice" data-uk-grid>
-                        <div>
-                            <div class="uk-card uk-card-body uk-card-small uk-card-default uk-border-pill">
-                                <span class="uk-float-left">
-                                    <img src="/assets/img/in-lazy.gif" data-src="/assets/img/in-profit-ticker-1.svg" alt="profit-ticker" width="77" height="20" data-uk-img>
-                                </span>
-                                <span class="uk-float-right down">
-                                    <i class="fas fa-arrow-down"></i>1,526.05
-                                </span>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="uk-card uk-card-body uk-card-small uk-card-default uk-border-pill">
-                                <span class="uk-float-left">
-                                    <img src="/assets/img/in-lazy.gif" data-src="/assets/img/in-profit-ticker-2.svg" alt="profit-ticker" width="77" height="20" data-uk-img>
-                                </span>
-                                <span class="uk-float-right down">
-                                    <i class="fas fa-arrow-down"></i>205.37
-                                </span>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="uk-card uk-card-body uk-card-small uk-card-default uk-border-pill">
-                                <span class="uk-float-left">
-                                    <img src="/assets/img/in-lazy.gif" data-src="/assets/img/in-profit-ticker-3.svg" alt="profit-ticker" width="77" height="20" data-uk-img>
-                                </span>
-                                <span class="uk-float-right down">
-                                    <i class="fas fa-arrow-down"></i>267.97
-                                </span>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="uk-card uk-card-body uk-card-small uk-card-default uk-border-pill">
-                                <span class="uk-float-left">
-                                    <img src="/assets/img/in-lazy.gif" data-src="/assets/img/in-profit-ticker-4.svg" alt="profit-ticker" width="77" height="20" data-uk-img>
-                                </span>
-                                <span class="uk-float-right up">
-                                    <i class="fas fa-arrow-up"></i>59,230
-                                </span>
-                            </div>
-                        </div>
-                        <div class="uk-visible@m">
-                            <div class="uk-card uk-card-body uk-card-small uk-card-default uk-border-pill">
-                                <span class="uk-float-left">
-                                    <img src="/assets/img/in-lazy.gif" data-src="/assets/img/in-profit-ticker-5.svg" alt="profit-ticker" width="77" height="20" data-uk-img>
-                                </span>
-                                <span class="uk-float-right up">
-                                    <i class="fas fa-arrow-up"></i>78.98
-                                </span>
-                            </div>
-                        </div>
+                    <div id="currency-cards-container" class="uk-child-width-1-2@s uk-child-width-1-5@m in-profit-stockprice" data-uk-grid>
+                        
                     </div>
                 </div>
                 <div class="uk-width-5-6@m uk-margin-medium-bottom">
@@ -379,6 +330,38 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
    <script>
+    $(document).ready(function() {
+    $.ajax({
+        url: 'https://marketdata.tradermade.com/api/v1/live?currency=EURGBP,GBPJPY,EURUSD,GBPUSD,USDJPY,USDCHF,AUDUSD,USDCAD,XAUUSD&api_key=MamjTqERYEg5GonVz_7f',
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            // Parse and display each currency data
+            $.each(response.quotes, function(index, currency) {
+                var currencyPair = currency.base_currency + currency.quote_currency;
+                var currencyValue = currency.mid;
+                var changeDirection = 'up'; // Placeholder for direction logic
+
+                // Create and append the currency card
+                $('#currency-cards-container').append(
+                    '<div><div class="uk-card uk-card-body uk-card-small uk-card-default uk-border-pill">' +
+                    '   <span class="uk-float-left" style="position: relative;top: 10px;">' +
+                    '   <h5>'+currencyPair+'</h5>'+
+                    '   </span>' +
+                    '   <span style="position: relative;top: 10px;" class="uk-float-right ' + changeDirection + '">' +
+                    '       <i class="fas fa-arrow-' + (changeDirection === 'up' ? 'up' : 'down') + '"></i>' + currencyValue.toFixed(5) +
+                    '   </span>' +
+                    '</div></div>'
+                );
+            });
+        },
+        error: function(error) {
+            console.log('Error fetching currency data:', error);
+        }
+    });
+});
+
+
     $(document).ready(function(){
         // // localStorage.setItem('user_set_data','');
         // let user_info=localStorage.getItem('user_set_data');

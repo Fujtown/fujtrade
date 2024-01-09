@@ -2,7 +2,7 @@
 const fs = require('fs');
 const PDFDocument = require('pdfkit');
 
-function createPdf(name, date) {
+function createPdf(name, date,email,phone) {
   return new Promise((resolve, reject) => {
     try {
       const doc = new PDFDocument();
@@ -107,53 +107,79 @@ function createPdf(name, date) {
 
            
         doc.moveDown(2).fontSize(14)
-        .text('Client\'s Name:', {
+        .text('Client\'s Name:  ', {
          continued: true,
          align: 'left',
          
         })
-        doc.font('Helvetica-Bold').text(name, {
+        doc.font('Helvetica-Bold').text('  '+ name, {
+         align: 'left'
+       });
+       
+       doc.font('Helvetica');    
+        doc.moveDown(2).fontSize(14)
+        .text('Client\'s Email:  ', {
+         continued: true,
+         align: 'left',
+         
+        })
+        doc.font('Helvetica-Bold').text('  '+email, {
          align: 'left'
        });
        doc.font('Helvetica');
-        // Write the label with the default font
-        doc.moveDown().fontSize(14).text('Client\'s Signature: ', {
-           continued: true,
-           align: 'left',
-         });
 
-         // Now switch to BrushScriptStd for the signature part
-         doc.font('Helvetica').text(name, {
-           align: 'left'
-         });
+        doc.moveDown(2).fontSize(14)
+        .text('Client\'s Phone #:  ', {
+         continued: true,
+         align: 'left',
+         
+        })
+        doc.font('Helvetica-Bold').text('  '+phone, {
+         align: 'left'
+       });
+     
+       doc.font('Helvetica');
        // Reset the font for the rest of the document
-        doc.font('Helvetica');
+        
        //  formattedDate
-        doc.moveDown().fontSize(14).text('Date:', {
+        doc.moveDown(2).fontSize(14).text('Date:  ', {
          continued: true,
          align: 'left',
        });
        
-       doc.font('Helvetica-Bold').text(formattedDate, {
+       doc.font('Helvetica-Bold').text('  '+formattedDate, {
          align: 'left'
        });
         
        doc.font('Helvetica');
- 
+       doc.moveDown(2);
+       doc.fontSize(16).font('Helvetica-Bold').text('THIS AGREEMENT HAS BEEN ACCEPTED AND AGREED UPON BY CLIENT UPON ACCOUNT OPENING AND FUNDS TRANSFER',{
+        align:'justify'
+       });
+       doc.font('Helvetica');
         doc.moveDown(5).fontSize(14)
-        .text('Company Name: ________________________', {
+        .text('Company Name:  ', {
+            align: 'left',
+            continued: true,
+        });
+        doc.fontSize(18).font('Helvetica-Bold').text('  FUJTOWN', {
+          align: 'left'
+        });
+        doc.font('Helvetica');
+     doc.moveDown(3).fontSize(14)
+        .text('Company Representative\'s Signature:   ', {
             align: 'left',
         });
- 
-     doc.moveDown().fontSize(14)
-        .text('Company Representative\'s Signature: ________________________', {
+    doc.image('./public/assets/img/stamp-fujtown.png', 325, 545, {width: 180, height: 90})
+    doc.font('Helvetica');
+     doc.moveDown(4).fontSize(14)
+        .text('Date:  ', {
             align: 'left',
-        });
- 
-     doc.moveDown().fontSize(14)
-        .text('Date: ________________________', {
-            align: 'left',
-        });   
+            continued: true,
+        });  
+        doc.font('Helvetica-Bold').text('  '+formattedDate, {
+          align: 'left',
+        }); 
      // ... other content ...
 
      doc.end();

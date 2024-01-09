@@ -16,6 +16,7 @@ const multer = require('multer');
 const axios = require('axios');
 const fs = require('fs');
 const createPdf = require('./pdfGenerator');
+const dbConnection =require('./db_connection');
 const { OAuth2Client } = require('google-auth-library');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -594,7 +595,7 @@ app.post('/fetch-and-save-data', async (req, res) => {
                 date: charge.transaction?.created,
                 ch_id: charge.id,
                 track: charge.reference?.track || 'defaultTrack',
-                payment: charge.reference?.payment,
+                payment: charge.reference?.payment || '0',
                 receipt: charge.receipt?.id,
                 amount: charge.amount,
                 currency: charge.currency,
@@ -608,7 +609,7 @@ app.post('/fetch-and-save-data', async (req, res) => {
                 email: charge.customer?.email,
                 country_code: charge.customer?.phone?.country_code,
                 number: charge.customer?.phone?.number,
-                invoice_id: charge.metadata?.invoice_id,
+                invoice_id: charge.metadata?.invoice_id || '0',
                 createdAt: admin.firestore.Timestamp.fromDate(now)
             };
               await docRef.set(formattedRecord);
@@ -1153,28 +1154,77 @@ function deleteExistingPdf(filepath) {
 app.post('/open_account', async (req, res) => {
   try {
 
-    const { email } = req.body;
-    const firestore = admin.firestore();
-    const lastDoc = await firestore.collection('all_tap_payment')
-    .where('email', '==', email)
-    .where('status', '==', 'CAPTURED')
-    .orderBy('date', 'asc')
-    .limit(1)
-    .get();
-  if (lastDoc.empty) {
-    res.status(200).json({ message: 'Record Not Found With this Email ', email });
-  }
-  else{
-    const lastInsertedDoc = lastDoc.docs[0].data();
-    // console.log(lastInsertedDoc)
-    let name=lastInsertedDoc.first_name;
-    let email=lastInsertedDoc.email;
-    let date=lastInsertedDoc.date;
-    res.status(200).json({ message: 'Record Found With this Email ', lastInsertedDoc });
-    // Delete existing PDF file
     deleteExistingPdf('./output.pdf');
+    // Prepare the SQL query
+    const { email } = req.body;
+const email_demo = email; // Replace with the actual email variable
+      const sql = `
+        SELECT * 
+        FROM tap_records 
+        WHERE email = ? AND status = 'CAPTURED' 
+        ORDER BY created ASC 
+        LIMIT 1
+      `;
 
-    const pdfPath = await createPdf(name, date);
+     // Execute the query
+dbConnection.query(sql, [email_demo], async (error, results, fields) => {
+  if (error) {
+    console.error(error);
+    return; // Exit the function in case of an error
+  }
+
+  // Ensure results are not empty
+  if (results.length === 0) {
+    console.log('No records found.');
+    return; // Exit the function if no results found
+  }
+
+  const row = results[0];
+  console.log(`Email: ${row.email}, Last Name: ${row.last_name}, Country Code: ${row.country_code}, Number: ${row.number}`);
+  
+  // Assuming you have a function to delete an existing PDF
+ 
+
+  let name = row.first_name+' '+row.last_name;
+  let email = row.email; // Use email from query result
+  let date = row.created; // Replace with actual date
+  let number = row.country_code +' '+ row.number; // Use number from query result
+
+  try {
+    const pdfPath = await createPdf(name, date, email, number);
+    // Further actions with pdfPath
+  } catch (pdfError) {
+    console.error('Error creating PDF:', pdfError);
+  }
+});
+  
+
+
+
+
+  //   const { email } = req.body;
+  //   const firestore = admin.firestore();
+  //   const lastDoc = await firestore.collection('all_tap_payment')
+  //   .where('email', '==', email)
+  //   .where('status', '==', 'CAPTURED')
+  //   .orderBy('date', 'asc')
+  //   .limit(1)
+  //   .get();
+  // if (lastDoc.empty) {
+  
+  //   res.status(200).json({ message: 'Record Not Found With this Email ', email });
+  // }
+  // else{
+    // const lastInsertedDoc = lastDoc.docs[0].data();
+    // console.log(lastInsertedDoc)
+    // let name=lastInsertedDoc.first_name;
+    // let email=lastInsertedDoc.email;
+    // let date=lastInsertedDoc.date;
+    // let number=lastInsertedDoc.number;
+
+    // res.status(200).json({ message: 'Record Found With this Email ', lastInsertedDoc });
+    // Delete existing PDF file
+ 
     // Check if the PDF file has been created
     // if (fs.existsSync(pdfPath)) {
     //     const transporter = nodemailer.createTransport({
@@ -1211,7 +1261,7 @@ app.post('/open_account', async (req, res) => {
     //   console.error('Failed to create PDF');
     //   res.status(500).json({ message: 'Failed to create PDF' });
     // }
-  }
+  // }
 
      // Check if the email exists in your user database
     //  const userSnapshot = await admin.firestore().collection('site_users').where('email', '==', email).get();
@@ -1225,6 +1275,11 @@ app.post('/open_account', async (req, res) => {
 
     
   } catch (error) {
+    // let name='See Sheng Sim';
+    // let email=' sim99@gmail.com';
+    // let date='1701004011669';
+    // let number='00 601165583946';
+    // const pdfPath = await createPdf(name, date,email,number);
     console.error('Error sending email:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
