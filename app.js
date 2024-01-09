@@ -1196,8 +1196,8 @@ dbConnection.query(sql, [email_demo], async (error, results, fields) => {
     if (fs.existsSync(pdfPath)) {
       const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
-        secure: false, // use SSL
-        port: 25, // port for secure SMTP
+        secure: true, // use SSL
+        port: 465, // port for secure SMTP
         auth: {
           user: 'raza.aursoft@gmail.com',
           pass: 'gcgnnxopwtcxvyfd',
@@ -1220,9 +1220,14 @@ dbConnection.query(sql, [email_demo], async (error, results, fields) => {
       };
 
   // // Send the email
-      await transporter.sendMail(mailOptions);
-
-      res.status(200).json({ message: 'Email sent successfully' });
+  try {
+    await transporter.sendMail(mailOptions);
+    res.status(200).json({ message: 'Email sent successfully' });
+    console.log('Email sent successfully');
+  } catch (error) {
+    console.error('Error sending email:', error);
+  }
+      
   } else {
   //   console.error('Failed to create PDF');
     res.status(500).json({ message: 'Failed to create PDF' });
