@@ -18,6 +18,11 @@ const fs = require('fs');
 const createPdf = require('./pdfGenerator');
 const dbConnection =require('./db_connection');
 const { OAuth2Client } = require('google-auth-library');
+const { DeleteObjectCommand } = require('@aws-sdk/client-s3');
+const s3Client = require('./s3Client'); // Path to your s3Client.js file
+const AWS = require('aws-sdk');
+process.env.AWS_SDK_JS_SUPPRESS_MAINTENANCE_MODE_MESSAGE = '1';
+
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
@@ -28,6 +33,14 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 require('./passport-setup')
 
+AWS.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.secretAccessKey,
+  region:'ap-south-1'
+});
+
+// Create an S3 instance
+const s3 = new AWS.S3();
 
 
 const db = admin.firestore();
@@ -1140,21 +1153,99 @@ app.get('/terms', (req, res) => {
 
  
 // Function to delete the existing PDF file
-function deleteExistingPdf(filepath) {
+// function deleteExistingPdf(filepath) {
+//   try {
+//       if (fs.existsSync(filepath)) {
+//           fs.unlinkSync(filepath);
+//           console.log('Existing file deleted');
+//       }
+//   } catch (error) {
+//       console.error('Error deleting the file:', error);
+//   }
+// }
+
+async function uploadFileToS3(filePath, bucketName) {
+  // Read content from the file
+  const fileContent = fs.readFileSync(filePath);
+
+  // Setting up S3 upload parameters
+  const params = {
+      Bucket: bucketName,
+      Key: 'pdf/' + path.basename(filePath), // File name you want to save as in S3
+      Body: fileContent,
+      ContentType: 'application/pdf',
+      ACL: 'public-read' // Add this line
+  };
+
+  // Uploading files to the bucket
   try {
-      if (fs.existsSync(filepath)) {
-          fs.unlinkSync(filepath);
-          console.log('Existing file deleted');
-      }
+    const data = await s3.upload(params).promise();
+    console.log(`File uploaded successfully. ${data.Location}`);
+    return data.Location; // Return the URL of the uploaded file
+  } catch (err) {
+    console.error("Error in file upload: ", err);
+    throw err;
+  }
+}
+
+// async function deleteExistingPdf(bucketName, fileName) {
+//   try {
+//     const deleteParams = {
+//       Bucket: bucketName,
+//       Key: 'pdf/'+path.basename(fileName),
+//     };
+//     console.log(deleteParams)
+//     await s3Client.send(new DeleteObjectCommand(deleteParams));
+//     console.log(`File ${fileName} deleted successfully from S3`);
+//   } catch (err) {
+//     console.error("Error in file deletion from S3: ", err);
+//   }
+// }
+
+async function sendEmailWithPdfAttachment(toEmail, pdfUrl) {
+  try {
+    console.log(`this is the url for email ${pdfUrl}`)
+    // Create a Nodemailer transporter using SMTP
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      secure: true, // use SSL
+      port: 465, // port for secure SMTP
+      auth: {
+        user: 'raza.aursoft@gmail.com',
+        pass: 'gcgnnxopwtcxvyfd',
+      },
+      tls: {
+        rejectUnauthorized: false, // correct usage
+      },
+    });
+
+    // Email options
+    const mailOptions = {
+      from: 'raza.aursoft@gmail.com',
+      to: toEmail,
+      subject: 'Contract Form',
+      html: '<p>Please find the attached contract form.</p>',
+      attachments: [
+        {
+          path: pdfUrl, // URL of the PDF file in S3
+        },
+      ],
+    };
+
+    // Send email
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Email sent: ' + info.response);
   } catch (error) {
-      console.error('Error deleting the file:', error);
+    console.error('Error sending email:', error);
+    throw error;
   }
 }
 
 app.post('/open_account', async (req, res) => {
   try {
-
-    deleteExistingPdf('./output.pdf');
+    const bucketName = process.env.S3_BUCKET;
+    const fileName = 'output.pdf';
+    // deleteExistingPdf(bucketName, fileName);
     // Prepare the SQL query
     const { email } = req.body;
 const email_demo = email; // Replace with the actual email variable
@@ -1193,46 +1284,11 @@ dbConnection.query(sql, [email_demo], async (error, results, fields) => {
   try {
     const pdfPath = await createPdf(name, date, email, number);
 
-    if (fs.existsSync(pdfPath)) {
-      const transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        secure: true, // use SSL
-        port: 465, // port for secure SMTP
-        auth: {
-          user: 'raza.aursoft@gmail.com',
-          pass: 'gcgnnxopwtcxvyfd',
-        },
-        tls: {
-          rejectUnauthorized: false,
-        },
-      });
-
-  // // Compose the email message
-      const mailOptions = {
-        from: 'raza.aursoft@gmail.com',
-        to: 'tech@fujtown.com',
-        subject: 'Contract Form',
-        attachments: [
-          {
-            path: pdfPath,
-          },
-        ],
-      };
-
-  // // Send the email
-  try {
-    await transporter.sendMail(mailOptions);
-    res.status(200).json({ message: 'Email sent successfully' });
-    console.log('Email sent successfully');
-  } catch (error) {
-    console.error('Error sending email:', error);
-  }
-      
-  } else {
-  //   console.error('Failed to create PDF');
-    res.status(500).json({ message: 'Failed to create PDF' });
-  }
-    
+     // Upload pdfPath to S3 and get the URL
+     const s3PdfUrl = await uploadFileToS3(pdfPath, process.env.S3_BUCKET);
+    //  console.log(s3PdfUrl)
+     await sendEmailWithPdfAttachment('tech@fujtown.com', s3PdfUrl);
+  
     // Further actions with pdfPath
   } catch (pdfError) {
     console.error('Error creating PDF:', pdfError);
