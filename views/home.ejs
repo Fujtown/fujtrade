@@ -7,6 +7,62 @@
     <%- include('partials/header') %>
     <!-- header end -->
     <main>
+        <style>
+            .card-comm1{
+                background:linear-gradient(180deg, #343434 0%, #000 100%);
+    width: 30%;
+    margin: auto;
+    height: 130px;
+    text-align: center;
+    padding: 0;
+    border-radius: 5px;
+    position: relative;
+            }
+            .card-comm1 img,.card-comm2 img,.card-comm3 img{
+                width: 50px;
+            padding-top: 20px;
+            }
+            .card-comm1 .details,.card-comm2 .details,.card-comm3 .details{
+                position: absolute;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 15px;
+            }
+            .card-comm1 .details table,.card-comm2 .details table,.card-comm3 .details table{
+                width: 100%;
+            }
+            .card-comm2{
+                background: linear-gradient(180deg, #BBAC91 0%, #5E5649 100%);
+                width: 30%;
+                margin: auto;
+                height: 130px;
+                text-align: center;
+                padding: 0;
+                border-radius: 5px;
+                position: relative;
+            }
+            .card-comm3{
+                background: linear-gradient(180deg, #2B1115 0%, #0B0405 100%);
+                width: 30%;
+                margin: auto;
+                height: 130px;
+                text-align: center;
+                padding: 0;
+                border-radius: 5px;
+                position: relative;
+            }
+
+            @media only screen and (max-width: 768px) {
+    .card-comm1,.card-comm2,.card-comm3 {
+      width: 90%;
+      margin-left: 40px;
+    }
+  }
+
+        </style>
     <!-- slideshow content begin -->
     <div class="uk-section uk-padding-remove-vertical">
         <div class="in-slideshow uk-visible-toggle" data-uk-slideshow>
@@ -245,13 +301,60 @@
                             <h2>Connect to global capital markets</h2>
                         </div>
                         <div class="uk-width-3-5@m">
-                            <p class="uk-text-lead">ACurrently serving more than 10+ countries including the UK, Singapore, Australia, Malaysia, and some parts of Europe.</p>
+                            <p class="uk-text-lead">Currently serving more than 10+ countries including the UK, Singapore, Australia, Malaysia, and some parts of Europe.</p>
                         </div>
                     </div>
                 </div>
                 <div class="uk-width-1-1">
                     <div id="currency-cards-container" class="uk-child-width-1-2@s uk-child-width-1-5@m in-profit-stockprice" data-uk-grid>
-                        
+                       <div class="card-comm1">
+                        <img src="/assets/img/oil.jpg" alt="">
+                        <div class="details">
+                           <table>
+                            <tbody>
+                                <tr>
+                                    <td>USOUSD</td>
+                                    <td>$ 77.836</td>
+                                </tr>
+                                <tr><td>US Spot</td>
+                                    <td>7.25%</td>
+                                </tr>
+                            </tbody>
+                           </table> 
+                        </div>
+                       </div>
+                       <div  class="card-comm2">
+                         <img src="/assets/img/cotton.jpg" alt="">
+                        <div class="details">
+                            <table>
+                             <tbody>
+                                 <tr>
+                                     <td>Cotton</td>
+                                     <td>$ 9244</td>
+                                 </tr>
+                                 <tr><td>Cotton Spot</td>
+                                     <td>12.95%</td>
+                                 </tr>
+                             </tbody>
+                            </table> 
+                         </div>
+                    </div>
+                       <div class="card-comm3">
+                         <img src="/assets/img/coca.jpg" alt="">
+                        <div class="details">
+                            <table>
+                             <tbody>
+                                 <tr>
+                                     <td>COCOA</td>
+                                     <td>$ 5658.3</td>
+                                 </tr>
+                                 <tr><td>Ny Cococa Spot</td>
+                                     <td>31.83%</td>
+                                 </tr>
+                             </tbody>
+                            </table> 
+                         </div>
+                    </div> 
                     </div>
                 </div>
                 <div class="uk-width-5-6@m uk-margin-medium-bottom" >
@@ -298,36 +401,36 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
    <script>
-    $(document).ready(function() {
-    $.ajax({
-        url: 'https://marketdata.tradermade.com/api/v1/live?currency=EURGBP,GBPJPY,EURUSD,GBPUSD,USDJPY,USDCHF,AUDUSD,USDCAD,XAUUSD&api_key=MamjTqERYEg5GonVz_7f',
-        type: 'GET',
-        dataType: 'json',
-        success: function(response) {
-            // Parse and display each currency data
-            $.each(response.quotes, function(index, currency) {
-                var currencyPair = currency.base_currency + currency.quote_currency;
-                var currencyValue = currency.mid;
-                var changeDirection = 'up'; // Placeholder for direction logic
+//     $(document).ready(function() {
+//     $.ajax({
+//         url: 'https://marketdata.tradermade.com/api/v1/live?currency=EURGBP,GBPJPY,EURUSD,GBPUSD,USDJPY,USDCHF,AUDUSD,USDCAD,XAUUSD&api_key=MamjTqERYEg5GonVz_7f',
+//         type: 'GET',
+//         dataType: 'json',
+//         success: function(response) {
+//             // Parse and display each currency data
+//             $.each(response.quotes, function(index, currency) {
+//                 var currencyPair = currency.base_currency + currency.quote_currency;
+//                 var currencyValue = currency.mid;
+//                 var changeDirection = 'up'; // Placeholder for direction logic
 
-                // Create and append the currency card
-                $('#currency-cards-container').append(
-                    '<div><div class="uk-card uk-card-body uk-card-small uk-card-default uk-border-pill">' +
-                    '   <span class="uk-float-left" style="position: relative;top: 10px;">' +
-                    '   <h5>'+currencyPair+'</h5>'+
-                    '   </span>' +
-                    '   <span style="position: relative;top: 10px;" class="uk-float-right ' + changeDirection + '">' +
-                    '       <i class="fas fa-arrow-' + (changeDirection === 'up' ? 'up' : 'down') + '"></i>' + currencyValue.toFixed(5) +
-                    '   </span>' +
-                    '</div></div>'
-                );
-            });
-        },
-        error: function(error) {
-            console.log('Error fetching currency data:', error);
-        }
-    });
-});
+//                 // Create and append the currency card
+//                 $('#currency-cards-container').append(
+//                     '<div><div class="uk-card uk-card-body uk-card-small uk-card-default uk-border-pill">' +
+//                     '   <span class="uk-float-left" style="position: relative;top: 10px;">' +
+//                     '   <h5>'+currencyPair+'</h5>'+
+//                     '   </span>' +
+//                     '   <span style="position: relative;top: 10px;" class="uk-float-right ' + changeDirection + '">' +
+//                     '       <i class="fas fa-arrow-' + (changeDirection === 'up' ? 'up' : 'down') + '"></i>' + currencyValue.toFixed(5) +
+//                     '   </span>' +
+//                     '</div></div>'
+//                 );
+//             });
+//         },
+//         error: function(error) {
+//             console.log('Error fetching currency data:', error);
+//         }
+//     });
+// });
 
 
     $(document).ready(function(){
