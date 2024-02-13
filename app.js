@@ -28,14 +28,6 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 require('./passport-setup')
 
-AWS.config.update({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.secretAccessKey,
-  region:'ap-south-1'
-});
-
-// Create an S3 instance
-const s3 = new AWS.S3();
 
 
 const db = admin.firestore();
