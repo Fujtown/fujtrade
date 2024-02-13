@@ -745,7 +745,13 @@ app.get('/profile', (req, res) => {
   console.log(users_info);
   // const isAuthenticated = req.session.user;
   const originalPath = users_info.photo;
-  const convertedPath = originalPath.replace(/\\/g, '/');
+  // console.log(originalPath);
+  const convertedPath = '';
+  if(users_info.photo !='' && users_info.photo)
+  {
+    const convertedPath = originalPath.replace(/\\/g, '/')
+  }
+
   const password=users_info.password;
   const password_length=password.length;
   // console.log()
