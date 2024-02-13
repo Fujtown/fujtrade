@@ -31,26 +31,7 @@
                 </div>
             </div>
         </div>
-    </li> <li>
-        <div class="uk-container">
-            <div class="uk-grid" data-uk-grid>
-                <div class="uk-width-1-2@m">
-                    <div class="uk-overlay">
-                        <h1>Let top <span class="in-highlight">traders</span> do the job for you!</h1>
-                        <p class="uk-text-lead uk-visible@m">Covesting allows you to automatically copy top performing traders and achieve the returns</p>
-                        <div class="in-slideshow-button">
-                            <a href="#" class="uk-button uk-button-primary uk-border-rounded">Open account</a>
-                            <a href="#" class="uk-button uk-button-default uk-border-rounded uk-margin-small-left uk-visible@m">Discover covesting</a>
-                        </div>
-                        <p class="uk-text-small"><span class="uk-text-primary">*</span>Trading in Forex/ CFDs is highly speculative and carries a high level of risk.</p>
-                    </div>
-                </div>
-                <div class="uk-position-center">
-                    <img src="/assets/img/in-lazy.gif" data-src="/assets/img/in-slideshow-image-2.png" alt="slideshow-image" width="862" height="540" data-uk-img>
-                </div>
-            </div>
-        </div>
-    </li>
+    </li> 
             </ul>
             <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" data-uk-slidenav-previous data-uk-slideshow-item="previous"></a>
             <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" data-uk-slidenav-next data-uk-slideshow-item="next"></a>
@@ -233,33 +214,34 @@
             <div class="uk-grid-large" data-uk-grid>
                 <div class="uk-width-1-2@m">
                     <h2>We are committed to meeting your CFD and FX trading needs</h2>
-                    <p class="uk-text-lead">At Fujtrade, we dedicate ourselves to offering unparalleled Forex trading services to our clients. 
-                        Our commitment to excellence and customer satisfaction has been the cornerstone of our success.
-                         We take pride in engaging with over 5000 customers, providing them with top-notch Forex trading experiences.</p>
+                    <p class="uk-text-lead">Excepteur occaeca cupidata non proident fugiat nulla pariatur quasi architecto beatae, sunt in culpa quila officia deserunt mollit anim id est aute laborum.</p>
                 </div>
                 <div class="uk-width-1-1">
-                    <div class="uk-child-width-1-2@s uk-child-width-1-3@m uk-margin-small-top" data-uk-grid>
+                    <div class="uk-child-width-1-2@s uk-child-width-1-4@m uk-margin-small-top" data-uk-grid>
                         <div>
                             <h1 class="uk-heading-bullet">
-                                <span class="count" data-counter-end="5">Customers Trust Us</span>5K+
+                                <span class="count" data-counter-end="250">0</span>M+
                             </h1>
-                            <p class="blur-bg">Fujtrade is a trusted name in Forex trading. We have successfully built a large and satisfied customer base, serving more than 5000 clients who rely on us for their trading needs.</p>
+                            <p>Lorem ipsum dolor sit odin amet consectetur adipisicing elit.</p>
                         </div>
                         <div>
                             <h1 class="uk-heading-bullet">
-                                High Success Rate
+                                <span class="count" data-counter-end="90">0</span>%
                             </h1>
-                            <p class="blur-bg">Our clients enjoy a high success rate in their trading endeavors, thanks to our robust trading platform and expert guidance. 
-                                We ensure that every trader, whether novice or experienced, has the tools and support they need to succeed.</p>
+                            <p>Lorem ipsum dolor sit odin amet consectetur adipisicing elit.</p>
                         </div>
                         <div>
                             <h1 class="uk-heading-bullet">
-                                Dedicated to Your Trading Success
+                                <span class="count" data-counter-end="131">0</span>M+
                             </h1>
-                            <p class="blur-bg">Our team at Fujtrade is dedicated to helping you achieve your trading goals. 
-                                We understand the intricacies of Forex trading and strive to provide you with the resources and support necessary to navigate the market successfully.</p>
+                            <p>Lorem ipsum dolor sit odin amet consectetur adipisicing elit.</p>
                         </div>
-                      
+                        <div>
+                            <h1 class="uk-heading-bullet">
+                                <span class="count" data-counter-end="35">0</span>M+
+                            </h1>
+                            <p>Lorem ipsum dolor sit odin amet consectetur adipisicing elit.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -386,22 +368,24 @@
             if (userInfo) {
             let filter = JSON.parse(userInfo);
 
+            window.location.href='/signup';
+
             // Check if filter is an array and not empty
-            if (filter && Object.keys(filter).length > 0) {
-            $.ajax({
-                type: "POST",
-                url: '/open_account',
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    email,
-                }),
-                success: function (response) {
-                    alert(response.message);
-                }
-            });
-            } else {
-                alert('Email');
-            }
+            // if (filter && Object.keys(filter).length > 0) {
+            // $.ajax({
+            //     type: "POST",
+            //     url: '/open_account',
+            //     contentType: 'application/json',
+            //     data: JSON.stringify({
+            //         email,
+            //     }),
+            //     success: function (response) {
+            //         alert(response.message);
+            //     }
+            // });
+            // } else {
+            //     alert('Email');
+            // }
         } else {
             alert('No user data found');
         }

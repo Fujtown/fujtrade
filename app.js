@@ -40,11 +40,7 @@ app.use((req, res, next) => {
   const isHttps = req.secure || req.headers['x-forwarded-proto'] === 'https';
   if (isHttps !== 'https' && process.env.NODE_ENV === 'production') {
   // Check if it's not HTTPS or doesn't start with www
-  if (!isHttps || !host.startsWith('www.')) {
-      const wwwHost = 'www.' + host.replace(/^www\./, ''); // Ensure www is added
-      const redirectUrl = `https://${wwwHost}${req.url}`;
-      return res.redirect(301, redirectUrl);
-  }
+
 
 }
 next();

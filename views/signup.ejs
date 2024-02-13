@@ -122,7 +122,7 @@ body{
                     required maxlength="19" placeholder=""/>
                     <input type="hidden" value="1" id="country_code" name="country_code">
                     <input type="password" id="password" placeholder="PASSWORD" />
-                    <button class="opacity" type="submit" name="submit">SIGN UP</button>
+                    <button class="opacity" id="submitBtn" type="button" name="submit">SIGN UP</button>
                 </form>
                 
                  <!-- login form end -->
@@ -203,6 +203,9 @@ body{
                         icon: 'success',
                         title: 'Success!',
                         text: response.message, // Assuming your server sends a message in the response
+                        didClose: () => {
+                               location.href = "/signin";
+                            }
                     });
                     
                     // Reset the form inputs
