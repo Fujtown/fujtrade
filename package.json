@@ -12,9 +12,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.485.0",
-    "@aws-sdk/s3-request-presigner": "^3.485.0",
-    "@cyclic.sh/s3fs": "^1.2.9",
     "api": "^6.1.1",
     "aws-sdk": "^2.1532.0",
     "axios": "^1.6.2",

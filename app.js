@@ -18,11 +18,6 @@ const fs = require('fs');
 const createPdf = require('./pdfGenerator');
 const dbConnection =require('./db_connection');
 const { OAuth2Client } = require('google-auth-library');
-const { DeleteObjectCommand } = require('@aws-sdk/client-s3');
-const s3Client = require('./s3Client'); // Path to your s3Client.js file
-const AWS = require('aws-sdk');
-process.env.AWS_SDK_JS_SUPPRESS_MAINTENANCE_MODE_MESSAGE = '1';
-
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
