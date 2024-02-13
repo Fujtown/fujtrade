@@ -317,6 +317,33 @@ app.get('/signin', (req, res) => {
 app.get('/settings', (req, res) => {
   res.render('settings');
 });
+app.get('/contact', (req, res) => {
+  if (req.session.user && Object.keys(req.session.user).length !== 0) {
+    const isAuthenticated = req.session.user;
+    let users_info=req.session.user;
+    // console.log(users_info);
+    const user_photo=users_info.photo;
+    res.render('contact',{isAuthenticated,user_photo});
+  } else {
+    const isAuthenticated = false;
+    const user_photo='default';
+    res.render('contact',{isAuthenticated,user_photo});
+  }
+});
+app.get('/about', (req, res) => {
+  if (req.session.user && Object.keys(req.session.user).length !== 0) {
+    const isAuthenticated = req.session.user;
+    let users_info=req.session.user;
+    // console.log(users_info);
+    const user_photo=users_info.photo;
+    res.render('about',{isAuthenticated,user_photo});
+  } else {
+    const isAuthenticated = false;
+    const user_photo='default';
+    res.render('about',{isAuthenticated,user_photo});
+  }
+  // res.render('');
+});
 app.get('/signup', (req, res) => {
   res.render('signup');
 });
