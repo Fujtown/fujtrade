@@ -344,7 +344,7 @@ app.get('/career', (req, res) => {
   }
 });
 app.get('/market', (req, res) => {
-  const config = {
+  const widgetConfig = {
     colorTheme: "dark",
     dateRange: "12M",
     exchange: "US",
@@ -371,11 +371,11 @@ app.get('/market', (req, res) => {
     let users_info=req.session.user;
     // console.log(users_info);
     const user_photo=users_info.photo;
-    res.render('market',{isAuthenticated,user_photo,config: JSON.stringify(config) });
+    res.render('market',{isAuthenticated,user_photo,widgetConfig: JSON.stringify(widgetConfig)});
   } else {
     const isAuthenticated = false;
     const user_photo='default';
-    res.render('market',{isAuthenticated,user_photo,config: JSON.stringify(config) });
+    res.render('market',{isAuthenticated,user_photo,widgetConfig: JSON.stringify(widgetConfig) });
   }
 });
 app.get('/about', (req, res) => {
