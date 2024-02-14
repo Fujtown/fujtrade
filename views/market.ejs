@@ -1,0 +1,59 @@
+<%- include('partials/head') %>
+
+<body>
+
+    <!-- page loader begin -->
+    <%- include('partials/loader') %>
+    <!-- page loader end -->
+    <!-- header begin -->
+    <%- include('partials/header') %>
+    <!-- header end -->
+           <!-- breadcrumb content begin -->
+<style>
+    .error {
+    color: red;
+    font-size: 0.8em;
+}
+.tradingview-widget-container{
+    width: 100%!important;
+}
+</style>
+        <!-- breadcrumb content end -->
+    <main>
+    <!-- section content begin -->
+    <div class="uk-section">
+        <div class="uk-container">
+            <div class="uk-grid uk-flex uk-flex-center in-contact-6">
+              
+                <div class="uk-width-3-5@m">
+                   
+                    <!-- <hr class="uk-margin-medium"> -->
+                    <h4 class="uk-margin-remove-bottom uk-text-muted uk-text-center">Capitalize on supply and demand dynamics and let your trading skills fuel your success by investing in commodities such as Apple.</h4>
+                  <h1 class="uk-margin-small-top uk-text-center">Let's <span class="in-highlight">Discover a World of Opportunities</span></h1>
+                  <!-- TradingView Widget BEGIN -->
+<!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+    <div class="tradingview-widget-container__widget"></div>
+    <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank"><span class="blue-text">Track all markets on TradingView</span></a></div>
+    
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-hotlists.js" async>
+     
+    </script>
+  </div>
+  <!-- TradingView Widget END -->
+  <!-- TradingView Widget END -->
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- section content end -->
+    </main>
+    <!-- footer begin -->
+    <%- include('partials/footer') %>
+    <%- include('partials/foot') %>
+    
+
+</body>
+
+</html>

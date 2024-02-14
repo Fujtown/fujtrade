@@ -330,6 +330,54 @@ app.get('/contact', (req, res) => {
     res.render('contact',{isAuthenticated,user_photo});
   }
 });
+app.get('/career', (req, res) => {
+  if (req.session.user && Object.keys(req.session.user).length !== 0) {
+    const isAuthenticated = req.session.user;
+    let users_info=req.session.user;
+    // console.log(users_info);
+    const user_photo=users_info.photo;
+    res.render('career',{isAuthenticated,user_photo});
+  } else {
+    const isAuthenticated = false;
+    const user_photo='default';
+    res.render('career',{isAuthenticated,user_photo});
+  }
+});
+app.get('/market', (req, res) => {
+  const config = {
+    colorTheme: "dark",
+    dateRange: "12M",
+    exchange: "US",
+    showChart: true,
+    locale: "en",
+    width: "100%",
+    height: "100%",
+    largeChartUrl: "",
+    isTransparent: false,
+    showSymbolLogo: false,
+    showFloatingTooltip: false,
+    plotLineColorGrowing: "rgba(41, 98, 255, 1)",
+    plotLineColorFalling: "rgba(41, 98, 255, 1)",
+    gridLineColor: "rgba(240, 243, 250, 0)",
+    scaleFontColor: "rgba(106, 109, 120, 1)",
+    belowLineFillColorGrowing: "rgba(41, 98, 255, 0.12)",
+    belowLineFillColorFalling: "rgba(41, 98, 255, 0.12)",
+    belowLineFillColorGrowingBottom: "rgba(41, 98, 255, 0)",
+    belowLineFillColorFallingBottom: "rgba(41, 98, 255, 0)",
+    symbolActiveColor: "rgba(41, 98, 255, 0.12)"
+};
+  if (req.session.user && Object.keys(req.session.user).length !== 0) {
+    const isAuthenticated = req.session.user;
+    let users_info=req.session.user;
+    // console.log(users_info);
+    const user_photo=users_info.photo;
+    res.render('market',{isAuthenticated,user_photo,config: JSON.stringify(config) });
+  } else {
+    const isAuthenticated = false;
+    const user_photo='default';
+    res.render('market',{isAuthenticated,user_photo,config: JSON.stringify(config) });
+  }
+});
 app.get('/about', (req, res) => {
   if (req.session.user && Object.keys(req.session.user).length !== 0) {
     const isAuthenticated = req.session.user;

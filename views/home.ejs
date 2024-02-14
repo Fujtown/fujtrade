@@ -10,7 +10,7 @@
         <style>
             .card-comm1{
                 background:linear-gradient(180deg, #343434 0%, #000 100%);
-    width: 30%;
+    width: 19%;
     margin: auto;
     height: 130px;
     text-align: center;
@@ -18,25 +18,25 @@
     border-radius: 5px;
     position: relative;
             }
-            .card-comm1 img,.card-comm2 img,.card-comm3 img{
+            .card-img{
                 width: 50px;
             padding-top: 20px;
             }
-            .card-comm1 .details,.card-comm2 .details,.card-comm3 .details{
+         .details{
                 position: absolute;
-    bottom: 0;
-    width: 100%;
-    color: white;
-    margin-bottom: 5px;
-    font-weight: bold;
-    font-size: 15px;
+            bottom: 0;
+            width: 100%;
+            color: white;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 15px;
             }
-            .card-comm1 .details table,.card-comm2 .details table,.card-comm3 .details table{
+            .details table{
                 width: 100%;
             }
             .card-comm2{
                 background: linear-gradient(180deg, #BBAC91 0%, #5E5649 100%);
-                width: 30%;
+                width: 19%;
                 margin: auto;
                 height: 130px;
                 text-align: center;
@@ -46,7 +46,27 @@
             }
             .card-comm3{
                 background: linear-gradient(180deg, #2B1115 0%, #0B0405 100%);
-                width: 30%;
+                width: 19%;
+                margin: auto;
+                height: 130px;
+                text-align: center;
+                padding: 0;
+                border-radius: 5px;
+                position: relative;
+            }
+            .card-comm4{
+                background: linear-gradient(180deg, #603813 0%, #130B04 100%);
+                width: 19%;
+                margin: auto;
+                height: 130px;
+                text-align: center;
+                padding: 0;
+                border-radius: 5px;
+                position: relative;
+            }
+            .card-comm5{
+                background:linear-gradient(180deg, #60A4EF 0%, #0B3A6A 100%);
+                width: 19%;
                 margin: auto;
                 height: 130px;
                 text-align: center;
@@ -56,7 +76,7 @@
             }
 
             @media only screen and (max-width: 768px) {
-    .card-comm1,.card-comm2,.card-comm3 {
+    .card-comm1,.card-comm2,.card-comm3,.card-comm4 {
       width: 90%;
       margin-left: 40px;
     }
@@ -308,7 +328,7 @@
                 <div class="uk-width-1-1">
                     <div id="currency-cards-container" class="uk-child-width-1-2@s uk-child-width-1-5@m in-profit-stockprice" data-uk-grid>
                        <div class="card-comm1">
-                        <img src="/assets/img/oil.jpg" alt="">
+                        <img class="card-img" src="/assets/img/oil.jpg" alt="">
                         <div class="details">
                            <table>
                             <tbody>
@@ -324,7 +344,7 @@
                         </div>
                        </div>
                        <div  class="card-comm2">
-                         <img src="/assets/img/cotton.jpg" alt="">
+                         <img class="card-img"  src="/assets/img/cotton.jpg" alt="">
                         <div class="details">
                             <table>
                              <tbody>
@@ -340,7 +360,7 @@
                          </div>
                     </div>
                        <div class="card-comm3">
-                         <img src="/assets/img/coca.jpg" alt="">
+                         <img class="card-img" src="/assets/img/coca.jpg" alt="">
                         <div class="details">
                             <table>
                              <tbody>
@@ -355,6 +375,38 @@
                             </table> 
                          </div>
                     </div> 
+                    <div class="card-comm4">
+                        <img class="card-img"  src="/assets/img/coffee.jpg" alt="">
+                       <div class="details">
+                           <table>
+                            <tbody>
+                                <tr>
+                                    <td>COFFEE</td>
+                                    <td>$ 18790.9</td>
+                                </tr>
+                                <tr><td>Coffee Arabica Spot</td>
+                                    <td>5.19%</td>
+                                </tr>
+                            </tbody>
+                           </table> 
+                        </div>
+                   </div> 
+                   <div class="card-comm5">
+                    <img class="card-img"  src="/assets/img/natgas.jpg" alt="">
+                   <div class="details">
+                       <table>
+                        <tbody>
+                            <tr>
+                                <td>NATGAS</td>
+                                <td>$ 1716.75</td>
+                            </tr>
+                            <tr><td>Natural Gas</td>
+                                <td>-37.75%</td>
+                            </tr>
+                        </tbody>
+                       </table> 
+                    </div>
+               </div> 
                     </div>
                 </div>
                 <div class="uk-width-5-6@m uk-margin-medium-bottom" >
