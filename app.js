@@ -79,6 +79,9 @@ app.use(session({
   saveUninitialized: true,
   cookie: { secure: true } // Set secure to true if using HTTPS
 }));
+
+app.use(passport.initialize());
+app.use(passport.session());
 // Middleware to check session
 app.use((req, res, next) => {
   if (!req.session.views) {
@@ -444,22 +447,15 @@ async function revokeToken(token) {
 }
 
 // Example route for logging out
-app.get('/logout', (req, res) => {
-  req.logout(function(err) {
-    if (err) { 
-      // Handle error
-      console.error(err); 
-      return next(err); 
-    }
-    // Destroy the session after successful logout
-    req.session.destroy(function(err) {
-        if (err) {
-            console.log("Error : Failed to destroy the session during logout.", err);
-        }
-        req.session = null; // Ensure the session is definitely cleared
-        res.redirect('/'); // Redirect to home page or login page
-    });
-  });
+app.get('/logout', function(req, res, next) {
+  // remove the req.user property and clear the login session
+  req.logout();
+
+  // destroy session data
+  req.session = null;
+
+  // redirect to homepage
+  res.redirect('/');
 });
 
 
