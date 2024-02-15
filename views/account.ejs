@@ -229,16 +229,18 @@ td.text-right {
                 // console.log("UTC Time: " + formattedDateUTC);
                 return formattedDateUTC;
             }
+            var email = '<%= user_email %>';
 
         const storedUserInfoString = localStorage.getItem('userInfo');
             const storedUserInfo = storedUserInfoString ? JSON.parse(storedUserInfoString) : null;
-            if (isObjectDefinedAndNotEmpty(storedUserInfo)) {
+            const store_email = storedUserInfo.email;
+            if (isObjectDefinedAndNotEmpty(storedUserInfo) && email != store_email) {
                 $('#name').text(storedUserInfo.first_name);
                 $('#email').text(storedUserInfo.email);
                 $('#d_amount').text(storedUserInfo.amount);
                 $('#d_date').text(formatDate(storedUserInfo.date));
             } else {
-                var email = '<%= user_email %>';
+               
                 $.ajax({
                 url: '/get_record_by_client', // Change to your actual endpoint
                 type: 'POST',
@@ -253,7 +255,7 @@ td.text-right {
                     const storedUserInfo = storedUserInfoString ? JSON.parse(storedUserInfoString) : null;
 
                     // Check if the retrieved object is defined and not empty
-                    if (isObjectDefinedAndNotEmpty(storedUserInfo)) {
+                    if (isObjectDefinedAndNotEmpty(storedUserInfo) && email != store_email) {
                         $('#name').text(storedUserInfo.first_name);
                         $('#email').text(storedUserInfo.email);
                         $('#d_amount').text(storedUserInfo.amount);
@@ -285,13 +287,14 @@ td.text-right {
                 }
             });
             }
-
+            var email = '<%= user_email %>';  
         const storedUserAgreementString = localStorage.getItem('userAgreement');
             const storedAgreement = storedUserAgreementString ? JSON.parse(storedUserAgreementString) : null;
-            if (isObjectDefinedAndNotEmpty(storedAgreement)) {
+            const store_ag_email = storedUserInfo.email;
+            if (isObjectDefinedAndNotEmpty(storedAgreement) && email != store_ag_email) {
                 $('#downloadLink').attr('href', storedAgreement.agreement);
             } else {
-                var email = '<%= user_email %>';
+               
                 $.ajax({
                 url: '/download-client-agreement', // Change to your actual endpoint
                 type: 'POST',
@@ -301,13 +304,14 @@ td.text-right {
                     const storedAgreement = storedUserAgreementString ? JSON.parse(storedUserAgreementString) : null;
 
                     // Check if the retrieved object is defined and not empty
-                    if (isObjectDefinedAndNotEmpty(storedAgreement)) {
+                    if (isObjectDefinedAndNotEmpty(storedAgreement) && email != store_ag_email) {
                         // $('#name').text(storedAgreement.first_name);
                         $('#downloadLink').attr('href', storedAgreement.agreement);
                     } else {
                         $('#downloadLink').attr('href', response.pdf_url);
                         const userAgreement = {
                         agreement: response.pdf_url,
+                        client_email: response.email,
                     };
                     const userAgreementString = JSON.stringify(userAgreement);
                     localStorage.setItem('userAgreement', userAgreementString);

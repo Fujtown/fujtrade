@@ -48,7 +48,7 @@
                 <form id="loginForm">
                     <input type="email" id="email" placeholder="EMAIL" />
                     <input type="password" id="password" placeholder="PASSWORD" />
-                    <button class="opacity" type="submit" name="submit">LOGIN</button>
+                    <button class="opacity" type="submit" id="login-btn" name="submit">LOGIN</button>
                 </form>
                 <div class="register-forget opacity">
                     <a href="/signup">REGISTER</a>
@@ -72,7 +72,9 @@
 
           $('#loginForm').submit(function(e) {
             e.preventDefault();
-    
+            $("#login-btn").attr( "disabled", "disabled" );
+                    $("#login-btn").text('Loading...');
+
             const email = $('#email').val();
             const password = $('#password').val();
     
@@ -87,6 +89,8 @@
               title: 'Success',
               text: response.message,
               didClose: () => {
+                $("#login-btn").removeAttr("disabled");
+                            $("#login-btn").text('LOGIN');
                 // Redirect to the home page
                 window.location.href = '/';
               }
@@ -97,6 +101,12 @@
               icon: 'error',
               title: 'Error',
               text: error.responseJSON.message,
+              didClose: () => {
+                $("#login-btn").removeAttr("disabled");
+                $("#login-btn").text('LOGIN');
+                // Redirect to the home page
+                // window.location.href = '/';
+              }
             });
               }
             });

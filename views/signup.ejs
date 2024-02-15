@@ -178,6 +178,8 @@ body{
     $(document).ready(function () {
         // Event listener for form submission
         $("#submitBtn").click(function () {
+            $("#submitBtn").attr( "disabled", "disabled" );
+                    $("#submitBtn").text('Loading...');
             // Get form data
             var formData = {
                 fname: $("#fname").val(),
@@ -204,6 +206,8 @@ body{
                         title: 'Success!',
                         text: response.message, // Assuming your server sends a message in the response
                         didClose: () => {
+                            $("#submitBtn").removeAttr("disabled");
+                            $("#submitBtn").text('SIGN UP');
                                location.href = "/signin";
                             }
                     });
@@ -219,6 +223,10 @@ body{
                         icon: 'error',
                         title: 'Error!',
                         text: 'Failed to submit data. Please try again.',
+                        didClose: () => {
+                            $("#submitBtn").removeAttr("disabled");
+                            $("#submitBtn").text('SIGN UP');
+                            }
                     });
                     // Handle errors
                 }
