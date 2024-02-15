@@ -68,10 +68,10 @@ app.locals.getCurrencySymbol = function(currencyCode) {
 app.set('view engine', 'ejs');  // Set EJS as the view engine
 app.set('views', path.join(__dirname, 'views')); // Set the views directory
 // Use express-session middleware
-app.use(cookieSession({
-  name:'fujtrade-session',
-  keys:['key1','key2']
-}))
+// app.use(cookieSession({
+//   name:'fujtrade-session',
+//   keys:['key1','key2']
+// }))
 
 
 // var sess = {
@@ -95,11 +95,14 @@ app.use(cookieSession({
 
 
 app.use(session({
-  secret: '', // Replace with a strong secret key
+  secret: 'c91f60bca9fc56d7dc2884428cce1fca9aa972cea16f440200e6bbd2726131ee',
   resave: false,
-  secret: ['key1', 'key2', 'key3'],
   saveUninitialized: true,
-  cookie: { secure: false} // Set secure to true if using HTTPS
+  cookie: {
+    secure: process.env.NODE_ENV === 'production', // Set to true in production
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24, // Example: 24 hours
+  }
 }));
 
 
