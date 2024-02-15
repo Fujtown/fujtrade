@@ -447,16 +447,19 @@ async function revokeToken(token) {
 }
 
 // Example route for logging out
-app.get('/logout', function(req, res, next) {
-  // remove the req.user property and clear the login session
-  req.logout();
-
-  // destroy session data
-  req.session = null;
-
-  // redirect to homepage
-  res.redirect('/');
+app.get('/logout', function(req, res){
+  req.logout(function(err) {
+    if (err) { return next(err); }
+    req.session.destroy(function (err) {
+        if (err) {
+            return next(err);
+        }
+        // Ensure the user is redirected only after the session has been destroyed:
+        res.redirect('/');
+    });
+  });
 });
+
 
 
 
