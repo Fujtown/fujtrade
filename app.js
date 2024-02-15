@@ -68,43 +68,28 @@ app.locals.getCurrencySymbol = function(currencyCode) {
 app.set('view engine', 'ejs');  // Set EJS as the view engine
 app.set('views', path.join(__dirname, 'views')); // Set the views directory
 // Use express-session middleware
-// app.use(cookieSession({
-//   name:'fujtrade-session',
-//   keys:['key1','key2']
-// }))
+
+app.set('trust proxy', 1); // Trust first proxy
+app.use(cookieSession({
+  name: 'fujtrade-session',
+  keys: ['key1', 'key2'],
+  // Cookie options
+  maxAge: 24 * 60 * 60 * 1000, // 24 hours
+  secure: process.env.NODE_ENV === 'production',
+  httpOnly: true,
+  sameSite: 'lax', // or 'strict' or 'none' with secure true
+}));
 
 
-// var sess = {
+//app.set('trust proxy', 1) // trust first proxy
+// app.use(session({
 //   secret: 'c91f60bca9fc56d7dc2884428cce1fca9aa972cea16f440200e6bbd2726131ee',
 //   resave: false,
 //   saveUninitialized: true,
-//   secret: ['key1', 'key2', 'key3'],
 //   cookie: {
-//     secure: app.get('env') === 'production', // Serve secure cookies in production
-//     httpOnly: true,
-//     maxAge: 24 * 60 * 60 * 1000 // 24 hours
+//     secure: process.env.NODE_ENV === 'production', // Set to true in production
 //   }
-// }
-
-// if (app.get('env') === 'production') {
-//   app.set('trust proxy', 1); // Trust first proxy
-// }
-
-// app.use(session(sess));
-
-
-app.set('trust proxy', 1) // trust first proxy
-app.use(session({
-  secret: 'c91f60bca9fc56d7dc2884428cce1fca9aa972cea16f440200e6bbd2726131ee',
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-    sameSite: 'none', // or 'lax' depending on your requirements
-    secure: process.env.NODE_ENV === 'production', // Set to true in production
-    httpOnly: true,
-    maxAge : 40 * 60 * 1000, // Example: 24 hours
-  }
-}));
+// }));
 
 
 
