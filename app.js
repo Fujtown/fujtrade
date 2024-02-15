@@ -444,9 +444,22 @@ async function revokeToken(token) {
 }
 
 // Example route for logging out
-app.get('/logout', async (req, res) => {
-  req.logout();
-  res.redirect('/');
+app.get('/logout', (req, res) => {
+  req.logout(function(err) {
+    if (err) { 
+      // Handle error
+      console.error(err); 
+      return next(err); 
+    }
+    // Destroy the session after successful logout
+    req.session.destroy(function(err) {
+        if (err) {
+            console.log("Error : Failed to destroy the session during logout.", err);
+        }
+        req.session = null; // Ensure the session is definitely cleared
+        res.redirect('/'); // Redirect to home page or login page
+    });
+  });
 });
 
 
@@ -727,23 +740,23 @@ app.post('/save_account', (req, res) => {
      db.collection('site_users').add(data)
     .then(() => {
 
-      axios.get('https://www.w-iclinics.com/laravelfujtrade/public/generate-client-agreement', {
-        headers: {
-            'X-API-KEY': '67f17266e5d09d00181d7c9d93a15440', // Replace with your actual API key
-            'Cache-Control': 'no-cache'
-        },
-        params: {
-            email: email,
-        }
-    })
-    .then(response => {
-        // console.log('Success:', response.data);
-        res.send(response.data); // Send the response data back to the client
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        res.status(500).send('An error occurred'); // Send an error response
-    });
+    //   axios.get('https://www.w-iclinics.com/laravelfujtrade/public/generate-client-agreement', {
+    //     headers: {
+    //         'X-API-KEY': '67f17266e5d09d00181d7c9d93a15440', // Replace with your actual API key
+    //         'Cache-Control': 'no-cache'
+    //     },
+    //     params: {
+    //         email: email,
+    //     }
+    // })
+    // .then(response => {
+    //     // console.log('Success:', response.data);
+    //     res.send(response.data); // Send the response data back to the client
+    // })
+    // .catch(error => {
+    //     console.error('Error:', error);
+    //     res.status(500).send('An error occurred'); // Send an error response
+    // });
 
       res.status(200).json({ success: true, message: "Data received and saved successfully." });
     })
