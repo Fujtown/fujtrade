@@ -68,10 +68,10 @@ app.locals.getCurrencySymbol = function(currencyCode) {
 app.set('view engine', 'ejs');  // Set EJS as the view engine
 app.set('views', path.join(__dirname, 'views')); // Set the views directory
 // Use express-session middleware
-// app.use(cookieSession({
-//   name:'fujtrade-session',
-//   keys:['key1','key2']
-// }))
+app.use(cookieSession({
+  name:'fujtrade-session',
+  keys:['key1','key2']
+}))
 
 
 // var sess = {
