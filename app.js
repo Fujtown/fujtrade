@@ -445,9 +445,8 @@ async function revokeToken(token) {
 
 // Example route for logging out
 app.get('/logout', async (req, res) => {
- req.session=null;
- req.logout();
-  res.redirect('/'); // Change '/' to the actual route of your home page
+  req.logout();
+  res.redirect('/');
 });
 
 

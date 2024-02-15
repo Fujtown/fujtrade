@@ -262,7 +262,7 @@ td.text-right {
                         $('#name').text(response.first_name);
                         $('#email').text(response.email);
                         $('#d_amount').text(response.amount);
-                        $('#d_date').text(response.date);
+                        $('#d_date').text(formatDate(response.date));
                         const userInfo = {
                         amount: response.amount,
                         brand: response.brand,
