@@ -1,0 +1,357 @@
+<%- include('partials/head') %>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/css/intlTelInput.css"  />
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+<body>
+
+    <style>
+ 
+/*** Table Styles **/
+
+.table-fill {
+  background: white;
+  border-radius:3px;
+  border-collapse: collapse;
+  height: 320px;
+  margin: auto;
+  max-width: 600px;
+  padding:5px;
+  width: 100%;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  animation: float 5s infinite;
+}
+ 
+th {
+  color:#D5DDE5;;
+  background:#463a5c;
+  border-bottom:4px solid #9ea7af;
+  border-right: 1px solid #343a45;
+  font-size:23px;
+  font-weight: 100;
+  padding:24px;
+  text-align:left;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  vertical-align:middle;
+}
+
+th:first-child {
+  border-top-left-radius:3px;
+}
+ 
+th:last-child {
+  border-top-right-radius:3px;
+  border-right:none;
+}
+  
+tr {
+  border-top: 1px solid #C1C3D1;
+  border-bottom: 1px solid #C1C3D1;
+  color:#666B85;
+  font-size:16px;
+  font-weight:normal;
+  text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
+}
+ 
+tr:hover td {
+  background:#4E5066;
+  color:#FFFFFF;
+  border-top: 1px solid #22262e;
+}
+ 
+tr:first-child {
+  border-top:none;
+}
+
+tr:last-child {
+  border-bottom:none;
+}
+ 
+tr:nth-child(odd) td {
+  background:#EBEBEB;
+}
+ 
+tr:nth-child(odd):hover td {
+  background:#4E5066;
+}
+
+tr:last-child td:first-child {
+  border-bottom-left-radius:3px;
+}
+ 
+tr:last-child td:last-child {
+  border-bottom-right-radius:3px;
+}
+ 
+td {
+  background:#FFFFFF;
+  padding:20px;
+  text-align:left;
+  vertical-align:middle;
+  font-weight:300;
+  font-size:18px;
+  text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+  border-right: 1px solid #C1C3D1;
+}
+
+td:last-child {
+  border-right: 0px;
+}
+
+th.text-left {
+  text-align: left;
+}
+
+th.text-center {
+  text-align: center;
+}
+
+th.text-right {
+  text-align: right;
+}
+
+td.text-left {
+  text-align: left;
+}
+
+td.text-center {
+  text-align: center;
+}
+
+td.text-right {
+  text-align: right;
+}
+.download-btn {
+    color: purple;
+    font-weight: bold;
+    background: #fed5cd;
+    padding: 10px;
+    border-radius: 5px;
+}
+.download-btn:hover{
+    text-decoration: none;
+}
+
+        </style>
+          <!-- page loader begin -->
+    <%- include('partials/loader') %>
+    <!-- page loader end -->
+    <!-- header begin -->
+    <%- include('partials/header') %>
+    <!-- header end -->
+        <main>
+    <!-- slideshow content begin -->
+    <div class="uk-section">
+        <div class="uk-container" >
+            <div class="uk-card uk-card-default uk-card-hover uk-card-body">
+
+            <h1 class="uk-margin-small-top uk-text-center uk-card-title">Checkout<span class="in-highlight"> Your First Transaction Information</span></h1>
+            <div uk-grid>
+                
+               
+                <div class="uk-width-expand@m">
+                    <table class="table-fill">
+                        <thead>
+                        <tr>
+                        <th class="text-left" colspan="2">Transaction Information</th>
+                        </tr>
+                        </thead>
+                        <tbody class="table-hover">
+                            <tr>
+                                <td colspan="2" style="text-align: center;"> <a href="#" target="_blank" id="downloadLink" class="download-btn">Download Agreement</a></td>
+                            </tr>
+                        <tr>
+                        <td class="text-left">Name</td>
+                        <td class="text-left" id="name"></td>
+                        </tr>
+                        <tr>
+                        <td class="text-left">Email</td>
+                        <td class="text-left" id="email"></td>
+                        </tr>
+                        <tr>
+                        <td class="text-left">Deposit Amount</td>
+                        <td class="text-left" id="d_amount"></td>
+                        </tr>
+                        <tr>
+                        <td class="text-left">Deposit Date</td>
+                        <td class="text-left" id="d_date"></td>
+                        </tr>
+                       
+                        </tbody>
+                        </table>
+                </div>
+            </div>
+            <!-- <button type="button" class="generate">Generate PDF</button> -->
+            <!-- <div class="uk-grid uk-flex uk-flex-center in-contact-8">
+                <h1 class="uk-margin-small-top uk-text-center">Customise<span class="in-highlight">Your Account Information</span></h1>
+              
+            </div> -->
+        </div>
+        </div>
+    </div>
+    <!-- slideshow content end -->
+    <!-- section content begin -->
+ 
+    <!-- section content end -->
+
+   
+    <!-- section content end -->
+    </main>
+    <!-- footer begin -->
+    <%- include('partials/footer') %>
+    <%- include('partials/foot') %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/intlTelInput.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+ <script>
+  $(document).ready(function() {
+    //   $('#fetchDataButton').click(function() {
+        function formatDate(milliseconds) {
+        var timestamp = Number(milliseconds); // Your timestamp in milliseconds
+    var date = new Date(timestamp); // Convert timestamp to a Date object
+    // Function to add leading zeros
+    function pad(number) {
+        return (number < 10 ? '0' : '') + number;
+    }
+                    // console.log(milliseconds)
+                   // Construct the UTC date string
+    var hoursUTC = date.getUTCHours() % 12 || 12; // Convert 24h to 12h format UTC
+    var minutesUTC = pad(date.getUTCMinutes());
+    var ampmUTC = date.getUTCHours() >= 12 ? 'PM' : 'AM';
+    var formattedDateUTC = pad(date.getUTCMonth() + 1) + '/' +
+                           pad(date.getUTCDate()) + '/' +
+                           date.getUTCFullYear() + ' ' +
+                           pad(hoursUTC) + ':' +
+                           minutesUTC + ' ' +
+                           ampmUTC;
+
+
+                // console.log("UTC Time: " + formattedDateUTC);
+                return formattedDateUTC;
+            }
+
+        const storedUserInfoString = localStorage.getItem('userInfo');
+            const storedUserInfo = storedUserInfoString ? JSON.parse(storedUserInfoString) : null;
+            if (isObjectDefinedAndNotEmpty(storedUserInfo)) {
+                $('#name').text(storedUserInfo.first_name);
+                $('#email').text(storedUserInfo.email);
+                $('#d_amount').text(storedUserInfo.amount);
+                $('#d_date').text(formatDate(storedUserInfo.date));
+            } else {
+                var email = '<%= user_email %>';
+                $.ajax({
+                url: '/get_record_by_client', // Change to your actual endpoint
+                type: 'POST',
+                data: { email: email },
+                success: function(response) {
+                    // $('#name').text(response.first_name);
+                    // $('#email').text(response.email);
+                    // $('#d_amount').text(response.amount);
+                    // $('#d_date').text(response.date);
+                    // Retrieve an object from localStorage
+                    const storedUserInfoString = localStorage.getItem('userInfo');
+                    const storedUserInfo = storedUserInfoString ? JSON.parse(storedUserInfoString) : null;
+
+                    // Check if the retrieved object is defined and not empty
+                    if (isObjectDefinedAndNotEmpty(storedUserInfo)) {
+                        $('#name').text(storedUserInfo.first_name);
+                        $('#email').text(storedUserInfo.email);
+                        $('#d_amount').text(storedUserInfo.amount);
+                        $('#d_date').text(storedUserInfo.date);
+                    } else {
+                        $('#name').text(response.first_name);
+                        $('#email').text(response.email);
+                        $('#d_amount').text(response.amount);
+                        $('#d_date').text(response.date);
+                        const userInfo = {
+                        amount: response.amount,
+                        brand: response.brand,
+                        currency: response.currency,
+                        date: response.date,
+                        email: response.email,
+                        first_name: response.first_name,
+                    };
+                    const userInfoString = JSON.stringify(userInfo);
+                    localStorage.setItem('userInfo', userInfoString);
+
+                    }
+                
+
+                    // Handle success scenario
+                },
+                error: function(error) {
+                    console.error('Error:', error);
+                    // Handle error scenario
+                }
+            });
+            }
+
+        const storedUserAgreementString = localStorage.getItem('userAgreement');
+            const storedAgreement = storedUserAgreementString ? JSON.parse(storedUserAgreementString) : null;
+            if (isObjectDefinedAndNotEmpty(storedAgreement)) {
+                $('#downloadLink').attr('href', storedAgreement.agreement);
+            } else {
+                var email = '<%= user_email %>';
+                $.ajax({
+                url: '/download-client-agreement', // Change to your actual endpoint
+                type: 'POST',
+                data: { email: email },
+                success: function(response) {
+                    const storedUserAgreementString = localStorage.getItem('userAgreement');
+                    const storedAgreement = storedUserAgreementString ? JSON.parse(storedUserAgreementString) : null;
+
+                    // Check if the retrieved object is defined and not empty
+                    if (isObjectDefinedAndNotEmpty(storedAgreement)) {
+                        // $('#name').text(storedAgreement.first_name);
+                        $('#downloadLink').attr('href', storedAgreement.agreement);
+                    } else {
+                        $('#downloadLink').attr('href', response.pdf_url);
+                        const userAgreement = {
+                        agreement: response.pdf_url,
+                    };
+                    const userAgreementString = JSON.stringify(userAgreement);
+                    localStorage.setItem('userAgreement', userAgreementString);
+
+                    }
+                
+
+                    // Handle success scenario
+                },
+                error: function(error) {
+                    console.error('Error:', error);
+                    // Handle error scenario
+                }
+            });
+            }    
+
+    function isObjectDefinedAndNotEmpty(obj) {
+    // Check if the object is defined and not null
+    if (typeof obj !== 'undefined' && obj !== null) {
+        // Check if the object has at least one property
+        return Object.keys(obj).length > 0;
+    }
+    return false;
+}
+
+    //   });
+  });
+
+//   $('.generate').on('click',function(e) {
+//     var email = 'jack2479@msn.com';
+//                 $.ajax({
+//                 url: '/generate_client_pdf', // Change to your actual endpoint
+//                 type: 'POST',
+//                 data: { email: email },
+//                 success: function(response) {
+                  
+//                 },
+//                 error: function(error) {
+//                     console.error('Error:', error);
+//                     // Handle error scenario
+//                 }
+//             });
+//   })
+  </script>
+</body>
+
+</html>

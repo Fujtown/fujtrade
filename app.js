@@ -392,6 +392,22 @@ app.get('/about', (req, res) => {
   }
   // res.render('');
 });
+app.get('/account', (req, res) => {
+  if (req.session.user && Object.keys(req.session.user).length !== 0) {
+    const isAuthenticated = req.session.user;
+    let users_info=req.session.user;
+    // console.log(users_info);
+    const user_photo=users_info.photo;
+    const user_email=users_info.email;
+    res.render('account',{isAuthenticated,user_photo,user_email});
+  } else {
+    const isAuthenticated = false;
+    const user_photo='default';
+    const user_email='default';
+    res.render('account',{isAuthenticated,user_photo,user_email});
+  }
+  // res.render('');
+});
 app.get('/signup', (req, res) => {
   res.render('signup');
 });
@@ -711,6 +727,25 @@ app.post('/save_account', (req, res) => {
     }
      db.collection('site_users').add(data)
     .then(() => {
+
+      axios.get('https://www.w-iclinics.com/laravelfujtrade/public/generate-client-agreement', {
+        headers: {
+            'X-API-KEY': '67f17266e5d09d00181d7c9d93a15440', // Replace with your actual API key
+            'Cache-Control': 'no-cache'
+        },
+        params: {
+            email: email,
+        }
+    })
+    .then(response => {
+        // console.log('Success:', response.data);
+        res.send(response.data); // Send the response data back to the client
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        res.status(500).send('An error occurred'); // Send an error response
+    });
+
       res.status(200).json({ success: true, message: "Data received and saved successfully." });
     })
     .catch(error => {
@@ -1215,10 +1250,83 @@ app.get('/terms', (req, res) => {
   }
 });
 
- 
+
+
+// Example usage
+// app.js
+app.post('/get_record_by_client', (req, res) => {
+  // const email = req.email;
+  const { email} = req.body;
+
+  axios.get('https://www.w-iclinics.com/laravelfujtrade/public/tap-payments', {
+      headers: {
+          'X-API-KEY': '67f17266e5d09d00181d7c9d93a15440', // Replace with your actual API key
+          'Cache-Control': 'no-cache'
+      },
+      params: {
+          email: email,
+      }
+  })
+  .then(response => {
+      // console.log('Success:', response.data);
+      res.send(response.data); // Send the response data back to the client
+  })
+  .catch(error => {
+      console.error('Error:', error);
+      res.status(500).send('An error occurred'); // Send an error response
+  });
+});
+// app.js
+app.post('/generate_client_pdf', (req, res) => {
+  // const email = req.email;
+  const { email} = req.body;
+
+  axios.get('https://www.w-iclinics.com/laravelfujtrade/public/generate-client-agreement', {
+      headers: {
+          'X-API-KEY': '67f17266e5d09d00181d7c9d93a15440', // Replace with your actual API key
+          'Cache-Control': 'no-cache'
+      },
+      params: {
+          email: email,
+      }
+  })
+  .then(response => {
+      // console.log('Success:', response.data);
+      res.send(response.data); // Send the response data back to the client
+  })
+  .catch(error => {
+      console.error('Error:', error);
+      res.status(500).send('An error occurred'); // Send an error response
+  });
+});
+app.post('/download-client-agreement', (req, res) => {
+  // const email = req.email;
+  const { email} = req.body;
+
+  axios.get('https://www.w-iclinics.com/laravelfujtrade/public/download-client-agreement', {
+      headers: {
+          'X-API-KEY': '67f17266e5d09d00181d7c9d93a15440', // Replace with your actual API key
+          'Cache-Control': 'no-cache'
+      },
+      params: {
+          email: email,
+      }
+  })
+  .then(response => {
+      // console.log('Success:', response.data);
+      res.send(response.data); // Send the response data back to the client
+  })
+  .catch(error => {
+      console.error('Error:', error);
+      res.status(500).send('An error occurred'); // Send an error response
+  });
+});
+
 
 
 
 app.listen(process.env.PORT || port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
+
+
