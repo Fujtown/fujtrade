@@ -74,29 +74,29 @@ app.set('views', path.join(__dirname, 'views')); // Set the views directory
 // }))
 
 
-var sess = {
-  secret: 'c91f60bca9fc56d7dc2884428cce1fca9aa972cea16f440200e6bbd2726131ee',
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-    secure: app.get('env') === 'production', // Serve secure cookies in production
-    httpOnly: true,
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
-  }
-}
-
-if (app.get('env') === 'production') {
-  app.set('trust proxy', 1); // Trust first proxy
-}
-
-app.use(session(sess));
-
-// app.use(session({
-//   secret: '', // Replace with a strong secret key
+// var sess = {
+//   secret: 'c91f60bca9fc56d7dc2884428cce1fca9aa972cea16f440200e6bbd2726131ee',
 //   resave: false,
 //   saveUninitialized: true,
-//   cookie: { secure: false} // Set secure to true if using HTTPS
-// }));
+//   cookie: {
+//     secure: app.get('env') === 'production', // Serve secure cookies in production
+//     httpOnly: true,
+//     maxAge: 24 * 60 * 60 * 1000 // 24 hours
+//   }
+// }
+
+// if (app.get('env') === 'production') {
+//   app.set('trust proxy', 1); // Trust first proxy
+// }
+
+// app.use(session(sess));
+
+app.use(session({
+  secret: '', // Replace with a strong secret key
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false} // Set secure to true if using HTTPS
+}));
 
 
 
