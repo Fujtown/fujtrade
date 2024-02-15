@@ -73,15 +73,32 @@ app.use(cookieSession({
   keys:['key1','key2']
 }))
 
-app.use(session({
-  secret: 'c91f60bca9fc56d7dc2884428cce1fca9aa972cea16f440200e6bbd2726131ee', // Replace with a strong secret key
+
+var sess = {
+  secret: 'c91f60bca9fc56d7dc2884428cce1fca9aa972cea16f440200e6bbd2726131ee',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: true } // Set secure to true if using HTTPS
-}));
+  cookie: {}
+}
 
-app.use(passport.initialize());
-app.use(passport.session());
+if (app.get('env') === 'production') {
+  app.set('trust proxy', 1) // trust first proxy
+  sess.cookie.secure = true // serve secure cookies
+}
+
+app.use(session(sess))
+
+// app.use(session({
+//   secret: '', // Replace with a strong secret key
+//   resave: false,
+//   saveUninitialized: true,
+//   cookie: { secure: false} // Set secure to true if using HTTPS
+// }));
+
+
+
+// app.use(passport.initialize());
+// app.use(passport.session());
 // Middleware to check session
 app.use((req, res, next) => {
   if (!req.session.views) {
@@ -420,18 +437,15 @@ app.get('/success', (req, res) => {
   res.render('success', { tapId });
   // res.render('success');
 });
-// app.get('/logout', (req, res) => {
-//   // Destroy the current session
-//   req.session.destroy((err) => {
-//     if (err) {
-//       console.error('Error destroying session:', err);
-//       return res.status(500).send('Internal Server Error');
-//     }
+app.get('/logout', (req, res) => {
+  // Destroy the current session
+  req.logout();
+  req.session = null; 
+  // return res.status(200).json({ success: true, message: 'Logout.' });
+  res.redirect('/signin');
 
-//     // Redirect or respond after destroying session
-//     res.send('Logged out successfully!');
-//   });
-// });
+    // Redirect or respond after destroying session
+});
 
 // Initialize the OAuth2 client
 const oAuth2Client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
@@ -446,19 +460,17 @@ async function revokeToken(token) {
   }
 }
 
-// Example route for logging out
-app.get('/logout', function(req, res){
-  req.logout(function(err) {
-    if (err) { return next(err); }
-    req.session.destroy(function (err) {
-        if (err) {
-            return next(err);
-        }
-        // Ensure the user is redirected only after the session has been destroyed:
-        res.redirect('/');
-    });
-  });
-});
+// // Example route for logging out
+// app.get('/logout', function(req, res) {
+//   // Destroy the user session
+//   if (req.session) {
+//     req.session = null;
+//     return res.status(500).json({ success: false, message: 'Failed to log out.' });
+// }
+// });
+
+
+
 
 
 
