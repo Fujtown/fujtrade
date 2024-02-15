@@ -448,7 +448,7 @@ app.get('/success', (req, res) => {
 
 app.get('/logout', (req, res) => {
   req.session = null; // Clear the session
-  res.redirect('/login'); // Redirect after clearing the session
+  res.redirect('/signin'); // Redirect after clearing the session
 });
 
 
