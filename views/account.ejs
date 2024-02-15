@@ -234,7 +234,7 @@ td.text-right {
         const storedUserInfoString = localStorage.getItem('userInfo');
             const storedUserInfo = storedUserInfoString ? JSON.parse(storedUserInfoString) : null;
             const store_email = storedUserInfo.email;
-            if (isObjectDefinedAndNotEmpty(storedUserInfo) && email != store_email) {
+            if (isObjectDefinedAndNotEmpty(storedUserInfo) && email == store_email) {
                 $('#name').text(storedUserInfo.first_name);
                 $('#email').text(storedUserInfo.email);
                 $('#d_amount').text(storedUserInfo.amount);
@@ -255,7 +255,7 @@ td.text-right {
                     const storedUserInfo = storedUserInfoString ? JSON.parse(storedUserInfoString) : null;
 
                     // Check if the retrieved object is defined and not empty
-                    if (isObjectDefinedAndNotEmpty(storedUserInfo) && email != store_email) {
+                    if (isObjectDefinedAndNotEmpty(storedUserInfo) && email == store_email) {
                         $('#name').text(storedUserInfo.first_name);
                         $('#email').text(storedUserInfo.email);
                         $('#d_amount').text(storedUserInfo.amount);
@@ -291,7 +291,7 @@ td.text-right {
         const storedUserAgreementString = localStorage.getItem('userAgreement');
             const storedAgreement = storedUserAgreementString ? JSON.parse(storedUserAgreementString) : null;
             const store_ag_email = storedUserInfo.email;
-            if (isObjectDefinedAndNotEmpty(storedAgreement) && email != store_ag_email) {
+            if (isObjectDefinedAndNotEmpty(storedAgreement) && email == store_ag_email) {
                 $('#downloadLink').attr('href', storedAgreement.agreement);
             } else {
                
@@ -304,7 +304,7 @@ td.text-right {
                     const storedAgreement = storedUserAgreementString ? JSON.parse(storedUserAgreementString) : null;
 
                     // Check if the retrieved object is defined and not empty
-                    if (isObjectDefinedAndNotEmpty(storedAgreement) && email != store_ag_email) {
+                    if (isObjectDefinedAndNotEmpty(storedAgreement) && email == store_ag_email) {
                         // $('#name').text(storedAgreement.first_name);
                         $('#downloadLink').attr('href', storedAgreement.agreement);
                     } else {
