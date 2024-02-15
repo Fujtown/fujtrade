@@ -99,6 +99,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   cookie: {
+    sameSite: 'none', // or 'lax' depending on your requirements
     secure: process.env.NODE_ENV === 'production', // Set to true in production
     httpOnly: true,
     maxAge : 40 * 60 * 1000, // Example: 24 hours
@@ -750,7 +751,7 @@ app.post('/fetch-and-save-data', async (req, res) => {
 
 
 
-app.post('/save_account', (req, res) => {
+app.post('/save_account', async  (req, res) => {
     const { fname, lname, email, phone, password,country_code } = req.body;
 
     // Create a new document in the 'users' collection with the form data
@@ -763,31 +764,23 @@ app.post('/save_account', (req, res) => {
       password,
     }
      db.collection('site_users').add(data)
-    .then(() => {
+     try {
+      await db.collection('site_users').add(data);
 
-    //   axios.get('https://www.w-iclinics.com/laravelfujtrade/public/generate-client-agreement', {
-    //     headers: {
-    //         'X-API-KEY': '67f17266e5d09d00181d7c9d93a15440', // Replace with your actual API key
-    //         'Cache-Control': 'no-cache'
-    //     },
-    //     params: {
-    //         email: email,
-    //     }
-    // })
-    // .then(response => {
-    //     // console.log('Success:', response.data);
-    //     res.send(response.data); // Send the response data back to the client
-    // })
-    // .catch(error => {
-    //     console.error('Error:', error);
-    //     res.status(500).send('An error occurred'); // Send an error response
-    // });
+        // Call the function to generate PDF and send email
+        const pdfResponse = await axios.get('https://www.w-iclinics.com/laravelfujtrade/public/generate-client-agreement', {
+            headers: {
+                'X-API-KEY': '67f17266e5d09d00181d7c9d93a15440', // Replace with your actual API key
+                'Cache-Control': 'no-cache'
+            },
+            params: { email }
+        });
 
-      res.status(200).json({ success: true, message: "Data received and saved successfully." });
-    })
-    .catch(error => {
-      res.status(500).json({ success: false, error: "Internal Server Error" });
-    });
+        res.status(200).json({ success: true, message: "Account created successfully. PDF generated and email sent." });
+      } catch (error) {
+          console.error('Error:', error);
+          res.status(500).json({ success: false, error: "Internal Server Error" });
+      }
 
     
   
