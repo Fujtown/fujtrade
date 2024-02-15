@@ -78,6 +78,7 @@ app.set('views', path.join(__dirname, 'views')); // Set the views directory
 //   secret: 'c91f60bca9fc56d7dc2884428cce1fca9aa972cea16f440200e6bbd2726131ee',
 //   resave: false,
 //   saveUninitialized: true,
+//   secret: ['key1', 'key2', 'key3'],
 //   cookie: {
 //     secure: app.get('env') === 'production', // Serve secure cookies in production
 //     httpOnly: true,
@@ -91,9 +92,12 @@ app.set('views', path.join(__dirname, 'views')); // Set the views directory
 
 // app.use(session(sess));
 
+
+
 app.use(session({
   secret: '', // Replace with a strong secret key
   resave: false,
+  secret: ['key1', 'key2', 'key3'],
   saveUninitialized: true,
   cookie: { secure: false} // Set secure to true if using HTTPS
 }));
