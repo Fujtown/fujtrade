@@ -93,7 +93,7 @@ app.set('views', path.join(__dirname, 'views')); // Set the views directory
 // app.use(session(sess));
 
 
-
+app.set('trust proxy', 1) // trust first proxy
 app.use(session({
   secret: 'c91f60bca9fc56d7dc2884428cce1fca9aa972cea16f440200e6bbd2726131ee',
   resave: false,
@@ -101,7 +101,7 @@ app.use(session({
   cookie: {
     secure: process.env.NODE_ENV === 'production', // Set to true in production
     httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24, // Example: 24 hours
+    maxAge : 40 * 60 * 1000, // Example: 24 hours
   }
 }));
 
