@@ -433,17 +433,22 @@ app.get('/success', (req, res) => {
   res.render('success', { tapId });
   // res.render('success');
 });
-app.get('/logout', (req, res, next) => {
-  if (req.session) {
+// app.get('/logout', (req, res, next) => {
+//   if (req.session) {
 
-    req.session.destroy(function(err) {
-      // cannot access session here
-      console.log('Session destroyed');
-      res.redirect('/signin');
-    })
+//     req.session.destroy(function(err) {
+//       // cannot access session here
+//       console.log('Session destroyed');
+//       res.redirect('/signin');
+//     })
 
-  }
+//   }
 
+// });
+
+app.get('/logout', (req, res) => {
+  req.session = null; // Clear the session
+  res.redirect('/login'); // Redirect after clearing the session
 });
 
 
@@ -459,19 +464,6 @@ async function revokeToken(token) {
     console.error('Error revoking token:', error.message);
   }
 }
-
-// // Example route for logging out
-// app.get('/logout', function(req, res) {
-//   // Destroy the user session
-//   if (req.session) {
-//     req.session = null;
-//     return res.status(500).json({ success: false, message: 'Failed to log out.' });
-// }
-// });
-
-
-
-
 
 
 
