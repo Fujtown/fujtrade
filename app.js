@@ -77,7 +77,7 @@ app.use(session({
   secret: 'c91f60bca9fc56d7dc2884428cce1fca9aa972cea16f440200e6bbd2726131ee', // Replace with a strong secret key
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false } // Set secure to true if using HTTPS
+  cookie: { secure: true } // Set secure to true if using HTTPS
 }));
 // Middleware to check session
 app.use((req, res, next) => {
