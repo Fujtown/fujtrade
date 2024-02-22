@@ -740,8 +740,15 @@ app.post('/save_account', async  (req, res) => {
       phone,
       password,
     }
-     db.collection('site_users').add(data)
+    //  db.collection('site_users').add(data)
      try {
+      const usersRef = db.collection('site_users');
+      const snapshot = await usersRef.where('email', '==', email).get();
+      if (!snapshot.empty) {
+        // If there are documents found, a user with the email already exists
+        return res.status(400).json({ success: false, message: "An account with this email already exists." });
+      }
+      
       await db.collection('site_users').add(data);
 
         // Call the function to generate PDF and send email
