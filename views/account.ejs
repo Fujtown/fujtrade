@@ -233,7 +233,7 @@ td.text-right {
 
         const storedUserInfoString = localStorage.getItem('userInfo');
             const storedUserInfo = storedUserInfoString ? JSON.parse(storedUserInfoString) : null;
-            const store_email = storedUserInfo.email;
+            const store_email = storedUserInfo?.email ?? "default@email.com";
             if (isObjectDefinedAndNotEmpty(storedUserInfo) && email == store_email) {
                 $('#name').text(storedUserInfo.first_name);
                 $('#email').text(storedUserInfo.email);
@@ -290,7 +290,7 @@ td.text-right {
             var email = '<%= user_email %>';  
         const storedUserAgreementString = localStorage.getItem('userAgreement');
             const storedAgreement = storedUserAgreementString ? JSON.parse(storedUserAgreementString) : null;
-            const store_ag_email = storedUserInfo.email;
+            const store_ag_email = storedUserInfo?.email ?? "default@email.com";
             if (isObjectDefinedAndNotEmpty(storedAgreement) && email == store_ag_email) {
                 $('#downloadLink').attr('href', storedAgreement.agreement);
             } else {
